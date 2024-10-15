@@ -1,0 +1,65 @@
+﻿@model IList<ProductOverviewModel>
+
+@if (Model.Count > 0)
+{
+	// Display products with Sku containing "NE" (On Going Project)
+	var specialProducts = Model.Where(p => p.Sku != null && p.Sku.Contains("NE")).ToList();
+	if (specialProducts.Count > 0)
+	{
+		<div class="product-grid home-page-product-grid" style="padding-left:8%;margin-right:-20%">
+			<div class="title">
+				<img src="/Themes/DefaultClean/Content/images/icon-project2.png" alt="Project Icon"> <!-- Replace with your image URL -->
+				<strong style="font-weight:bold">On Going Project</strong>
+			</div>
+			<div class="item-grid">
+				@foreach (var item in specialProducts)
+				{
+					<div class="item-box">
+						@await Html.PartialAsync("_ProductBox", item)
+					</div>
+				}
+			</div>
+		</div>
+	}
+
+	// Display products with Sku containing "CO" (Completed Project)
+	var completedProducts = Model.Where(p => p.Sku != null && p.Sku.Contains("CO")).ToList();
+	if (completedProducts.Count > 0)
+	{
+		<div class="product-grid home-page-product-grid" style="padding-left:8%;margin-right:-20%">
+			<div class="title">
+				<img src="/Themes/DefaultClean/Content/images/icon-project2.png" alt="Project Icon"> <!-- Replace with your image URL -->
+				<strong style="font-weight:bold">Completed Project</strong>
+			</div>
+			<div class="item-grid">
+				@foreach (var item in completedProducts)
+				{
+					<div class="item-box">
+						@await Html.PartialAsync("_ProductBox", item)
+					</div>
+				}
+			</div>
+		</div>
+	}
+
+	// Display other products (Sku not containing "NE" or "CO")
+	var otherProducts = Model.Where(p => p.Sku == null || !p.Sku.Contains("NE") || !p.Sku.Contains("CO")).ToList();
+	if (otherProducts.Count > 0)
+	{
+		<div class="product-grid home-page-product-grid" style="padding-left:8%;margin-right:-20%">
+			<div class="title">
+				@* <strong>@T("Homepage.Products")</strong> *@
+				<img src="/Themes/DefaultClean/Content/images/icon-project2.png" alt="Project Icon"> <!-- Replace with your image URL -->
+				<strong style="font-weight:bold">Activities</strong>
+			</div>
+			<div class="item-grid">
+				@foreach (var item in otherProducts)
+				{
+					<div class="item-box">
+						@await Html.PartialAsync("_ProductBox", item)
+					</div>
+				}
+			</div>
+		</div>
+	}
+}

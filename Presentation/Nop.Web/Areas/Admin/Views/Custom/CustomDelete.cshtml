@@ -1,0 +1,22 @@
+﻿@model Nop.Web.Areas.Admin.Models.Custom.CustomTableModel
+
+@{
+	ViewData["Title"] = "Delete Custom Table";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="container">
+	<form asp-action="CustomDelete">
+		<input type="hidden" asp-for="Id" />
+		<div class="alert alert-warning">
+			<h4>Are you sure you want to delete this item?</h4>
+			<p>@Model.Name</p>
+		</div>
+		<div class="form-group">
+			<input type="submit" value="Delete" class="btn btn-danger" />
+			<a href="@Url.Action("Index", "CustomTable")" class="btn btn-secondary">Cancel</a>
+		</div>
+	</form>
+</div>
+
