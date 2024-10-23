@@ -13,6 +13,7 @@ public partial record SearchModel : BaseNopModel
         AvailableVendors = new List<SelectListItem>();
         CatalogProductsModel = new CatalogProductsModel();
     }
+ 
 
     /// <summary>
     /// Query string

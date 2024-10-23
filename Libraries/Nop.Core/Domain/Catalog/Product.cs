@@ -12,6 +12,9 @@ namespace Nop.Core.Domain.Catalog;
 /// </summary>
 public partial class Product : BaseEntity, ILocalizedEntity, ISlugSupported, IAclSupported, IStoreMappingSupported, IDiscountSupported<DiscountProductMapping>, ISoftDeletedEntity
 {
+    public int Adult { get; set; }
+    public int Children { get; set; }
+    public int Toddler { get; set; }
     /// <summary>
     /// Gets or sets the product type identifier
     /// </summary>

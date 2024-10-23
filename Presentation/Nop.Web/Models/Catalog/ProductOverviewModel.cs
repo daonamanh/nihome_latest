@@ -22,6 +22,7 @@ public partial record ProductOverviewModel : BaseNopEntityModel
     public string Sku { get; set; }
 
     public ProductType ProductType { get; set; }
+    public DateTime? AvailableStartDateTimeUtc { get; set; }
 
     public bool MarkAsNew { get; set; }
     //public IList<ManufacturerBriefInfoModel> Manufacturers { get; set; }

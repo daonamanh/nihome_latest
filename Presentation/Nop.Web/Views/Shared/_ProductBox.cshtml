@@ -65,7 +65,15 @@
         </h2>
 		<h2 class="product-title">
 			<a>@Model.ShortDescription</a>
+
 		</h2>
+		@if (Model.AvailableStartDateTimeUtc.HasValue)
+		{
+			<div class="available-date">
+				Available from: @Model.AvailableStartDateTimeUtc.Value.ToLocalTime().ToString("MM/dd/yyyy")
+			</div>
+		}
+
 		@*  <h2 class="product-title">
 			<a>@Model.ManufacturerPartNumber</a>
 		</h2>   *@
