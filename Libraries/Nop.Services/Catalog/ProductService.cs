@@ -847,7 +847,10 @@ public partial class ProductService : IProductService
         ProductSortingEnum orderBy = ProductSortingEnum.Position,
         bool showHidden = false,
         bool? overridePublished = null)
+
     {
+
+
         //some databases don't support int.MaxValue
         if (pageSize == int.MaxValue)
             pageSize = int.MaxValue - 1;

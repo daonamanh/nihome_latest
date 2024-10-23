@@ -72,6 +72,9 @@ public partial record ProductModel : BaseNopEntityModel,
 
     #region Properties
 
+    public int Adult { get; set; }
+    public int Children { get; set; }
+    public int Toddler { get; set; }
     //picture thumbnail
     [NopResourceDisplayName("Admin.Catalog.Products.Fields.PictureThumbnailUrl")]
     public string PictureThumbnailUrl { get; set; }

@@ -1664,6 +1664,7 @@ public partial class CatalogModelFactory : ICatalogModelFactory
             }
         }
 
+
         model.CatalogProductsModel = await PrepareSearchProductsModelAsync(model, command);
 
         return model;
