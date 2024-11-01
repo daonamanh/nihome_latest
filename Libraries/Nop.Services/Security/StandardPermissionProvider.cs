@@ -9,6 +9,92 @@ namespace Nop.Services.Security;
 public partial class StandardPermissionProvider : IPermissionProvider
 {
     //admin area permissions
+    public static readonly PermissionRecord ManageBuildingMap = new ()
+    {
+        Name = "Host. Manage Building Map",
+        SystemName = "ManageBuildingMap",
+        Category = "Host"
+    };
+    public static readonly PermissionRecord News = new()
+    {
+        Name = "Host.News",
+        SystemName = "News",
+        Category = "Host"
+    };
+    public static readonly PermissionRecord DataList = new()
+    {
+        Name = "Host. DataList",
+        SystemName = "DataList",
+        Category = "Host"
+    };
+    public static readonly PermissionRecord Customer = new()
+    {
+        Name = "Host. Customer",
+        SystemName = "Customer",
+        Category = "Host"
+    };
+    public static readonly PermissionRecord Finance = new()
+    {
+        Name = "Host. Finance",
+        SystemName = "Finance",
+        Category = "Host"
+    };
+    public static readonly PermissionRecord SendNotification = new()
+    {
+        Name = "Host. SendNotification",
+        SystemName = "SendNotification",
+        Category = "Host"
+    };
+    public static readonly PermissionRecord ProblemWork = new()
+    {
+        Name = "Host. ProblemWork",
+        SystemName = "ProblemWork",
+        Category = "Host"
+    };
+    public static readonly PermissionRecord RealEstateReport = new()
+    {
+        Name = "Host. RealEstateReport",
+        SystemName = "RealEstateReport",
+        Category = "Host"
+    };
+    public static readonly PermissionRecord FinancialReport = new()
+    {
+        Name = "Host. FinancialReport",
+        SystemName = "FinancialReport",
+        Category = "Host"
+    };
+    public static readonly PermissionRecord GeneralSetting = new()
+    {
+        Name = "Host. GeneralSetting",
+        SystemName = "GeneralSetting",
+        Category = "Host"
+    };
+    public static readonly PermissionRecord OtherDirectory = new()
+    {
+        Name = "Host. OtherDirectory",
+        SystemName = "OtherDirectory",
+        Category = "Host"
+    };
+    public static readonly PermissionRecord Form = new()
+    {
+        Name = "Host. Form",
+        SystemName = "Form",
+        Category = "Host"
+    };
+    public static readonly PermissionRecord Staff = new()
+    {
+        Name = "Host. Staff",
+        SystemName = "Staff",
+        Category = "Host"
+    };
+    public static readonly PermissionRecord Admin = new()
+    {
+        Name = "Admin area. Admin",
+        SystemName = "Admin",
+        Category = "Admin area"
+    };
+
+
     public static readonly PermissionRecord AccessAdminPanel = new() { Name = "Access admin area", SystemName = "AccessAdminPanel", Category = "Standard" };
     public static readonly PermissionRecord AllowCustomerImpersonation = new() { Name = "Admin area. Allow Customer Impersonation", SystemName = "AllowCustomerImpersonation", Category = "Customers" };
     public static readonly PermissionRecord ManageProducts = new() { Name = "Admin area. Manage Products", SystemName = "ManageProducts", Category = "Catalog" };
@@ -76,6 +162,20 @@ public partial class StandardPermissionProvider : IPermissionProvider
     {
         return new[]
         {
+             ManageBuildingMap,
+             News,
+             DataList,
+             Customer,
+             Finance,
+             SendNotification,
+             ProblemWork,
+             RealEstateReport,
+             FinancialReport,
+             GeneralSetting,
+             OtherDirectory,
+             Form,
+             Staff,
+             Admin,
             AccessAdminPanel,
             AllowCustomerImpersonation,
             ManageProducts,
@@ -198,6 +298,20 @@ public partial class StandardPermissionProvider : IPermissionProvider
                     EnableWishlist,
                     PublicStoreAllowNavigation,
                     AccessClosedStore,
+                    ManageBuildingMap,
+                    News,
+                    DataList,
+                    Customer,
+                    Finance,
+                    SendNotification,
+                    ProblemWork,
+                    RealEstateReport,
+                    FinancialReport,
+                    GeneralSetting,
+                    OtherDirectory,
+                    Form,
+                    Staff,
+                    Admin,
                     EnableMultiFactorAuthentication
                 }
             ),
