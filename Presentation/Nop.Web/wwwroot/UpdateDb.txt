@@ -1,0 +1,5 @@
+﻿dbo.Product
+Add new:
+int Adult(Allow null)
+int Children(Allow null)
+int Toddler(Allow null)

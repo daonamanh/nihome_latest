@@ -1,57 +1,155 @@
 ﻿@model IEnumerable<Nop.Web.Areas.Admin.Models.Custom.CustomTableModel>
+@using Microsoft.AspNetCore.Http
 
 @{
-	ViewData["Title"] = "Custom Table List";
+	ViewData["Title"] = T("Admin.RentingGuest");
 }
 
-<h1>@ViewData["Title"]</h1>
+<div style="display:flex;justify-content: space-between;padding-top: 15px;padding-left: 18px;padding-right: 20px;">
+	<h1 style="font-size:1.8rem">@ViewData["Title"]</h1>
+	<div style="margin-bottom:5px">
+		@* 		<a asp-action="Create" class="btn btn-primary">
+		<i class="fas fa-plus-square"></i>
+		@T("Admin.Common.AddNew")
+		</a> *@
+		<a href="@Url.Action("CustomCreate", "Custom")" class="btn btn-primary">
+			<i class="fas fa-plus-square"></i> @T("Admin.Common.AddNew")
+		</a>
 
-<div class="container">
-	@if (Model != null && Model.Any())
-	{
-		<table id="customTable" class="table table-striped table-bordered">
-			<thead>
-				<tr>
-					<th>ID</th>
-					<th>Name</th>
-					<th>Description</th>
-					<th>Picture</th> <!-- New column for Picture -->
-					<th>Actions</th>
-				</tr>
-			</thead>
-			<tbody>
-				@foreach (var item in Model)
-				{
-					<tr>
-						<td>@item.Id</td>
-						<td>@item.Name</td>
-						<td>@item.Description</td>
-						<td>
-							@{
-								if (!string.IsNullOrEmpty(item.PictureUrl))  // Check if PictureUrl is not empty
-								{
-									<img src="@item.PictureUrl" alt="Picture" style="max-width: 100px; height: auto;" /> <!-- Display the image -->
-								}
-							}
-						</td>
-						<td>
-							<a href="@Url.Action("CustomEdit", "Custom", new { id = item.Id })" class="btn btn-primary">Edit</a>
-							<form asp-action="CustomDelete" asp-controller="Custom" method="post" style="display:inline;">
-								<input type="hidden" name="id" value="@item.Id" />
-								<button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this item?');">Delete</button>
-							</form>
-						</td>
-					</tr>
-				}
-			</tbody>
-		</table>
-	}
-	else
-	{
-		<p>No data available.</p>
-	}
-	<a href="@Url.Action("CustomCreate", "Custom")" class="btn btn-success">Add New</a>
+		<button asp-action="DownloadCatalogPDF" type="submit" name="download-catalog-pdf" class="btn bg-purple" style="margin-right:3px">
+			<i class="far fa-file-pdf"></i>
+			@T("Admin.Catalog.Products.List.DownloadPDF")
+		</button>
+		<div class="btn-group" style="margin-right:3px">
+			<button type="button" class="btn btn-success">
+				<i class="fas fa-download"></i>
+				@T("Admin.Common.Export")
+			</button>
+			<button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+				<span class="caret"></span>
+				<span class="sr-only">&nbsp;</span>
+			</button>
+			<ul class="dropdown-menu" role="menu">
+				<li class="dropdown-item">
+
+					<button asp-action="ExportToXml" type="submit" name="exportxml-all">
+						<i class="far fa-file-code"></i>
+						@T("Admin.Common.ExportToXml.All")
+					</button>
+				</li>
+				<li class="dropdown-item">
+
+					<button type="button" id="exportxml-selected">
+						<i class="far fa-file-code"></i>
+						@T("Admin.Common.ExportToXml.Selected")
+					</button>
+				</li>
+				<li class="dropdown-divider"></li>
+				<li class="dropdown-item">
+					<button asp-action="ExportToExcel" type="submit" name="exportexcel-all">
+						<i class="far fa-file-excel"></i>
+						@T("Admin.Common.ExportToExcel.All")
+					</button>
+				</li>
+				<li class="dropdown-item">
+					<button type="button" id="exportexcel-selected">
+						<i class="far fa-file-excel"></i>
+						@T("Admin.Common.ExportToExcel.Selected")
+					</button>
+				</li>
+			</ul>
+		</div>
+
+
+		@* 	<button type="button" name="importexcel" class="btn bg-olive" data-toggle="modal" data-target="#importexcel-window">
+		<i class="fas fa-upload"></i>
+		@T("Admin.Common.Import")
+		</button> *@
+
+		<button type="button" id="delete-selected" class="btn btn-danger">
+			<i class="far fa-trash-alt"></i>
+			@T("Admin.Common.Delete.Selected")
+		</button>
+		<nop-action-confirmation asp-button-id="delete-selected" />
+		@await Component.InvokeAsync(typeof(AdminWidgetViewComponent), new { widgetZone = AdminWidgetZones.ProductListButtons, additionalData = Model })
+	</div>
 </div>
+
+<div style="background-color:white;margin:20px;border-radius:.25rem">
+	<div class="container" style="max-width:1210px; padding-top:20px">
+		@* <form asp-action="Search" method="get" class="form-inline mb-3">
+		<input type="text" name="searchQuery" class="form-control mr-2" placeholder="Search..." value="@Request.Query["searchQuery"]" />
+		<button type="submit" class="btn btn-primary">Search</button>
+		</form> *@
+		<style>
+			/* Light grey for header and first data row */
+			thead {
+				background-color: #f4f4f4; /* Light grey */
+			}
+
+			/* Alternate row colors */
+			.table-striped tbody tr:nth-of-type(odd) {
+				background-color: #f4f4f4; /* Light grey */
+			}
+
+			.table-striped tbody tr:nth-of-type(even) {
+				background-color: #ffffff; /* White */
+			}
+		</style>
+		@if (Model != null && Model.Any())
+		{
+			<table id="customTable" class="table table-striped ">
+				<thead>
+					<tr>
+						<th>ID</th>
+						<th>Name</th>
+						<th>Description</th>
+						<th>Date</th>
+						<th>Picture</th> <!-- New column for Picture -->
+						<th>Edit</th>
+					</tr>
+				</thead>
+				<tbody>
+					@foreach (var item in Model)
+					{
+						<tr>
+							<td>@item.Id</td>
+							<td>@item.Name</td>
+							<td>@item.Description</td>
+							<td>@item.Date</td>
+							<td>
+								@{
+									if (!string.IsNullOrEmpty(item.PictureUrl))  // Check if PictureUrl is not empty
+									{
+										<img src="@item.PictureUrl" alt="Picture" style="max-width: 100px; height: auto;" /> <!-- Display the image -->
+									}
+								}
+							</td>
+							<td style="display:grid">
+								<a href="@Url.Action("CustomEdit", "Custom", new { id = item.Id })" style="width:max-content;margin-right:5px" class="btn btn-light"> <i class="fas fa-pencil-alt"></i>@T("Admin.Common.Edit")</a>
+								<form asp-action="CustomDelete" asp-controller="Custom" method="post" style="display:inline;">
+									<input type="hidden" name="id" value="@item.Id" />
+									<!--
+									<button type="submit" class="btn btn-danger" style="width:40px" onclick="return confirm('Are you sure you want to delete this item?');">
+										<i class="far fa-trash-alt"></i>
+									</button>
+									-->
+
+								</form>
+							</td>
+						</tr>
+					}
+				</tbody>
+			</table>
+		}
+		else
+		{
+			<p>No data available.</p>
+		}
+	</div>
+</div>
+
+
 
 
 

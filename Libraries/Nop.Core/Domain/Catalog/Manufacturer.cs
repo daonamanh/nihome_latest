@@ -1,4 +1,6 @@
-﻿using Nop.Core.Domain.Common;
+﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Nop.Core.Domain.Common;
 using Nop.Core.Domain.Discounts;
 using Nop.Core.Domain.Localization;
 using Nop.Core.Domain.Security;
@@ -15,6 +17,12 @@ public partial class Manufacturer : BaseEntity, ILocalizedEntity, ISlugSupported
     /// <summary>
     /// Gets or sets the name
     /// </summary>
+    /// 
+    public int? CityId { get; set; }
+    public int? DistrictId { get; set; }
+    //public virtual City City { get; set; }
+    public decimal Price { get; set; }
+
     public string Name { get; set; }
 
     /// <summary>
@@ -117,3 +125,10 @@ public partial class Manufacturer : BaseEntity, ILocalizedEntity, ISlugSupported
     /// </summary>
     public bool ManuallyPriceRange { get; set; }
 }
+//public class City : BaseEntity
+//{
+//    public int? CityId { get; set; }
+//    public string Name { get; set; }
+//    public IList<Manufacturer> Manufacturers { get; set; } = new List<Manufacturer>();
+//}
+

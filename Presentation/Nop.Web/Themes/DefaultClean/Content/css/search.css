@@ -8,7 +8,8 @@
   display: -ms-flexbox;
   display: flex;
   width: 100%;
-  min-width: 100%;
+  /*min-width: 100%;*/
+  min-width: 89%;
   -webkit-box-pack: justify;
   -webkit-justify-content: space-between;
   -ms-flex-pack: justify;
@@ -45,7 +46,7 @@
 }
 
 .bPklzq:not(.is-home-page) {
-  padding-left: 10px;
+ /* padding-left: 10px;*/
 }
 
 .findroom-page .filter-customer-box, .findroom-page .filter-occupancy-box, .findroom-page .filter-range-date__content-item {
@@ -113,12 +114,12 @@
 }
 
 .bPklzq .filter-customer-box__desc-wrapper .title {
-  font-size: 12px;
+  font-size: 14px;
   font-style: normal;
   font-weight: 500;
   line-height: 16px;
   margin-bottom: 5px;
-  color: #525252;
+  color: #8b8d90;
 }
 
 .bPklzq .filter-customer-box__desc-wrapper .sub-title {
@@ -219,12 +220,12 @@
 }
 
 .hwVAeY .filter-range-date-trigger__label {
-  font-size: 12px;
+  font-size: 14px;
   font-style: normal;
   font-weight: 500;
   line-height: 16px;
   margin-bottom: 5px;
-  color: #525252;
+  color: #8b8d90;
 }
 
 .hwVAeY .filter-range-date-trigger__date-text {
@@ -331,12 +332,12 @@
 }
 
 .buqzBj .filter-occupancy-box__desc-wrapper .title {
-  font-size: 12px;
+  font-size: 14px;
   font-style: normal;
   font-weight: 500;
   line-height: 16px;
   margin-bottom: 5px;
-  color: #525252;
+  color: #8b8d90;
 }
 
 .buqzBj .filter-occupancy-box__desc-wrapper .detail {
@@ -429,7 +430,7 @@
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  padding: 16px 24px;
+  padding: 10px 24px;
   -webkit-box-pack: center;
   -webkit-justify-content: center;
   -ms-flex-pack: center;
@@ -438,7 +439,7 @@
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  border-radius: 8px;
+  /*border-radius: 8px;*/
   color: var(--primary-white);
   background-color: var(--primary-light-orange);
   -webkit-transition: opacity 0.3s linear;

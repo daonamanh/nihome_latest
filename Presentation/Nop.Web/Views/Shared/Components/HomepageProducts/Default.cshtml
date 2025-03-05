@@ -1,15 +1,177 @@
 ﻿@model IList<ProductOverviewModel>
+<style>
+	
 
+	.building-homepage .item-box {
+		padding: 15px;
+		border: 1px solid #ddd;
+		border-radius: 8px;
+		background: white;
+		text-align: center;
+		transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+		position: relative;
+	}
+
+		/* Hover Effect */
+		.building-homepage .item-box:hover {
+			transform: translateY(-5px);
+			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+			background: #f9f9f9;
+		}
+
+			.building-homepage .item-box:hover .product-title {
+				color: #007bff;
+				font-weight: bold;
+			}
+</style>
+<style>
+	.child{
+		display:flex;
+		gap:15px;
+		justify-content: center;
+		margin-left: 23%;
+		margin-top: 2%;
+		margin-bottom:5%
+	}
+	/* Set the color for the clicked li elements */
+	li.selected {
+		color: #e24d14;
+	}
+	/* Add pointer cursor to li elements */
+	.child li {
+		cursor: pointer;
+		font-size: 20px;
+		font-weight: 400;
+	}
+	* {
+		box-sizing: border-box;
+		margin: 0;
+		padding: 0;
+	}
+
+	.nav-tabs {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		border-radius: 30px;
+		padding: 3px;
+		width: fit-content;
+		position: relative;
+	}
+
+	.nav-item {
+		/* flex: 1; */
+		text-align: center;
+	}
+
+	.nav-link {
+		display: block;
+		padding: 8px 15px;
+		font-size: 16px;
+		font-family: Roboto, sans-serif;
+		color: #333;
+		background: transparent;
+		border: none;
+		border-radius: 30px;
+		cursor: pointer;
+		transition: all 0.3s;
+		position: relative;
+		z-index: 1;
+	}
+
+		.nav-link.active {
+			color: white!important;
+			background: black!important;
+		}
+
+	.active-tab {
+		position: absolute;
+		background: #007bff;
+		height: 100%;
+		width: 33.3%;
+		border-radius: 30px;
+		transition: left 0.3s;
+		top: 0;
+		left: 0;
+		z-index: 0;
+	}
+</style>
 @if (Model.Count > 0)
 {
+	@* <strong class="building-homepage-title"  style="font-weight:bold;font-family: Roboto, sans-serif;font-size:30px;text-align:center">TPHCM</strong> *@
+	@* <ul class="nav nav-tabs citybar" id="myTab" role="tablist" style="border:1px solid #ddd;margin-bottom:2%; font-family: Roboto, sans-serif; font-size:30px; margin-left:48%">
+		<li class="nav-item" role="presentation">
+			<button class="nav-link active" id="home-tab" data-bs-toggle="collapse" data-bs-target="#home-child" type="button" role="tab" aria-controls="home" aria-selected="true">TPHCM</button>
+		</li>
+		<li class="nav-item" role="presentation">
+			<button class="nav-link" id="profile-tab" data-bs-toggle="collapse" data-bs-target="#profile-child" type="button" role="tab" aria-controls="profile" aria-selected="false">Hà Nội</button>
+		</li>
+		<li class="nav-item" role="presentation">
+			<button class="nav-link" id="contact-tab" data-bs-toggle="collapse" data-bs-target="#contact-child" type="button" role="tab" aria-controls="contact" aria-selected="false">Đà Nẵng</button>
+		</li>
+	</ul>
+
+	<ul class="collapse multi-collapse child" id="home-child">
+		<li>Tất cả</li>
+		<li>Quận 1</li>
+		<li>Quận 2</li>
+		<li>Quận 3</li>
+		<li>Tân Bình</li>
+		<li>Bình Thạnh</li>
+		<li>Phú Nhuận</li>
+	</ul>
+	<ul class="collapse multi-collapse child" id="profile-child">
+		<li>Tất cả</li>
+		<li>Đống Đa</li>
+		<li>Hoàng Mai</li>
+		<li>Ba Đình</li>
+		<li>Hai Bà Trưng</li>
+		<li>Hoàn Kiếm</li>
+		<li>Long Biên</li>
+	</ul>
+	<ul class="collapse multi-collapse child" id="contact-child">
+		<li>Tất cả</li>
+		<li>Liên Chiểu</li>
+		<li>Thanh Khê</li>
+		<li>Hải Châu</li>
+		<li>Sơn Trà</li>
+		<li>Cẩm Lệ</li>
+		<li>Hòa Vang</li>
+	</ul> *@
+
+
+	<!-- Bootstrap JS -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+	<script>
+		document.querySelectorAll('.nav-link').forEach(tab => {
+			tab.addEventListener('click', function () {
+				// Close all collapse elements
+				document.querySelectorAll('.collapse').forEach(collapse => {
+					collapse.classList.remove('show');
+				});
+
+				// Show the clicked tab's associated child list
+				const target = this.getAttribute('data-bs-target');
+				const childList = document.querySelector(target);
+				if (childList) {
+					childList.classList.add('show');
+				}
+			});
+		});
+
+	</script>
+
+
+	
 	// Display products with Sku containing "NE" (On Going Project)
 	var specialProducts = Model.Where(p => p.Sku != null && p.Sku.Contains("NE")).ToList();
 	if (specialProducts.Count > 0)
 	{
-		<div class="product-grid home-page-product-grid" style="padding-left:8%;margin-right:-20%">
+		<div class="building-homepage">
 			<div class="title">
-				<img src="/Themes/DefaultClean/Content/images/icon-project2.png" alt="Project Icon"> <!-- Replace with your image URL -->
-				<strong style="font-weight:bold">On Going Project</strong>
+				@* <img src="/Themes/DefaultClean/Content/images/icon-project2.png" alt="Project Icon"> <!-- Replace with your image URL --> *@
+				@* <strong class="district">@T("Category.District1")</strong> *@
 			</div>
 			<div class="item-grid">
 				@foreach (var item in specialProducts)
@@ -22,44 +184,39 @@
 		</div>
 	}
 
-	// Display products with Sku containing "CO" (Completed Project)
-	var completedProducts = Model.Where(p => p.Sku != null && p.Sku.Contains("CO")).ToList();
-	if (completedProducts.Count > 0)
-	{
-		<div class="product-grid home-page-product-grid" style="padding-left:8%;margin-right:-20%">
-			<div class="title">
-				<img src="/Themes/DefaultClean/Content/images/icon-project2.png" alt="Project Icon"> <!-- Replace with your image URL -->
-				<strong style="font-weight:bold">Completed Project</strong>
-			</div>
-			<div class="item-grid">
-				@foreach (var item in completedProducts)
-				{
-					<div class="item-box">
-						@await Html.PartialAsync("_ProductBox", item)
-					</div>
-				}
-			</div>
-		</div>
-	}
-
-	// Display other products (Sku not containing "NE" or "CO")
-	var otherProducts = Model.Where(p => p.Sku == null || !p.Sku.Contains("NE") || !p.Sku.Contains("CO")).ToList();
-	if (otherProducts.Count > 0)
-	{
-		<div class="product-grid home-page-product-grid" style="padding-left:8%;margin-right:-20%">
-			<div class="title">
-				@* <strong>@T("Homepage.Products")</strong> *@
-				<img src="/Themes/DefaultClean/Content/images/icon-project2.png" alt="Project Icon"> <!-- Replace with your image URL -->
-				<strong style="font-weight:bold">Activities</strong>
-			</div>
-			<div class="item-grid">
-				@foreach (var item in otherProducts)
-				{
-					<div class="item-box">
-						@await Html.PartialAsync("_ProductBox", item)
-					</div>
-				}
-			</div>
-		</div>
-	}
+	
 }
+<script>
+	document.querySelectorAll('#myTab .nav-link').forEach(tab => {
+		tab.addEventListener('click', function () {
+			document.querySelectorAll('#myTab .nav-link').forEach(t => {
+				t.setAttribute('aria-selected', 'false');
+				t.classList.remove('active');
+			});
+			this.setAttribute('aria-selected', 'true');
+			this.classList.add('active');
+		});
+	});
+</script>
+<script>
+	// Add an event listener to all li elements within collapsible child lists
+	document.querySelectorAll('.child li').forEach(function (item) {
+		item.addEventListener('click', function () {
+			// Remove the 'selected' class from all li elements
+			document.querySelectorAll('.child li').forEach(function (li) {
+				li.classList.remove('selected');
+			});
+
+			// Add the 'selected' class to the clicked li element
+			item.classList.add('selected');
+		});
+	});
+
+</script>
+
+
+
+
+
+
+

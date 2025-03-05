@@ -2,6 +2,7 @@
 using System.Xml.Linq;
 using System.Xml.Serialization;
 using System.Xml.XPath;
+using LinqToDB.DataProvider;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
 using Nop.Core;
@@ -33,6 +34,13 @@ namespace Nop.Web.Factories;
 
 public partial class CatalogModelFactory : ICatalogModelFactory
 {
+    private readonly ICityService _cityService;
+
+    // Inject ICityService via constructor
+    public CatalogModelFactory(ICityService cityService)
+    {
+        _cityService = cityService;
+    }
     #region Fields
 
     protected readonly BlogSettings _blogSettings;
@@ -923,10 +931,14 @@ public partial class CatalogModelFactory : ICatalogModelFactory
         ArgumentNullException.ThrowIfNull(manufacturer);
 
         ArgumentNullException.ThrowIfNull(command);
-
         var model = new ManufacturerModel
         {
             Id = manufacturer.Id,
+            Price = manufacturer.Price,
+             CityId = manufacturer?.CityId ?? 0,  // Default to 0 if manufacturer is null
+                    AvailableCities = _cityService?.GetAllCities()
+            .Select(c => new SelectListItem { Text = c.Name, Value = c.Id.ToString() })
+            .ToList() ?? new List<SelectListItem>(),
             Name = await _localizationService.GetLocalizedAsync(manufacturer, x => x.Name),
             Description = await _localizationService.GetLocalizedAsync(manufacturer, x => x.Description),
             MetaKeywords = await _localizationService.GetLocalizedAsync(manufacturer, x => x.MetaKeywords),
@@ -935,7 +947,16 @@ public partial class CatalogModelFactory : ICatalogModelFactory
             SeName = await _urlRecordService.GetSeNameAsync(manufacturer),
             CatalogProductsModel = await PrepareManufacturerProductsModelAsync(manufacturer, command)
         };
-
+        var pictureUrl = await _pictureService.GetPictureUrlAsync(manufacturer.PictureId, targetSize: 400); // Adjust the size if needed
+        if (!string.IsNullOrEmpty(pictureUrl))
+        {
+            model.PictureModel = new PictureModel
+            {
+                ImageUrl = pictureUrl,
+                Title = await _localizationService.GetLocalizedAsync(manufacturer, x => x.Name),
+                AlternateText = await _localizationService.GetLocalizedAsync(manufacturer, x => x.Name)
+            };
+        }
         //featured products
         if (!_catalogSettings.IgnoreFeaturedProducts)
         {
@@ -1083,6 +1104,11 @@ public partial class CatalogModelFactory : ICatalogModelFactory
             var modelMan = new ManufacturerModel
             {
                 Id = manufacturer.Id,
+                CityId = manufacturer?.CityId ?? 0,  // Default to 0 if manufacturer is null
+                AvailableCities = _cityService?.GetAllCities()
+            .Select(c => new SelectListItem { Text = c.Name, Value = c.Id.ToString() })
+            .ToList() ?? new List<SelectListItem>(),
+                Price = manufacturer.Price,
                 Name = await _localizationService.GetLocalizedAsync(manufacturer, x => x.Name),
                 Description = await _localizationService.GetLocalizedAsync(manufacturer, x => x.Description),
                 MetaKeywords = await _localizationService.GetLocalizedAsync(manufacturer, x => x.MetaKeywords),
@@ -1090,7 +1116,6 @@ public partial class CatalogModelFactory : ICatalogModelFactory
                 MetaTitle = await _localizationService.GetLocalizedAsync(manufacturer, x => x.MetaTitle),
                 SeName = await _urlRecordService.GetSeNameAsync(manufacturer),
             };
-
             //prepare picture model
             var pictureSize = _mediaSettings.ManufacturerThumbPictureSize;
             var manufacturerPictureCacheKey = _staticCacheManager.PrepareKeyForDefaultCache(NopModelCacheDefaults.ManufacturerPictureModelKey,
@@ -1154,6 +1179,11 @@ public partial class CatalogModelFactory : ICatalogModelFactory
                 {
                     Id = manufacturer.Id,
                     Name = await _localizationService.GetLocalizedAsync(manufacturer, x => x.Name),
+                    CityId = manufacturer?.CityId ?? 0,  // Default to 0 if manufacturer is null
+                    AvailableCities = _cityService?.GetAllCities()
+            .Select(c => new SelectListItem { Text = c.Name, Value = c.Id.ToString() })
+            .ToList() ?? new List<SelectListItem>(),
+                    Price = manufacturer.Price,
                     SeName = await _urlRecordService.GetSeNameAsync(manufacturer),
                     IsActive = currentManufacturer != null && currentManufacturer.Id == manufacturer.Id,
                 };

@@ -61,22 +61,31 @@
 
 /* Caption styles */
 .nivo-caption {
-	position:absolute;
-	left:0px;
-	bottom:0px;
-	background:#000;
-	color:#fff;
-	width:100%;
-	z-index:8;
-	padding: 5px 10px;
-	opacity: 0.8;
-	overflow: hidden;
-	display: none;
-	-moz-opacity: 0.8;
-	filter:alpha(opacity=8);
-	-webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
-	-moz-box-sizing: border-box;    /* Firefox, other Gecko */
-	box-sizing: border-box;         /* Opera/IE 8+ */
+  position: absolute;
+  left: 0px;
+  bottom: 0px;
+  /*background: #000;*/
+  color: #fff;
+  width: 100%;
+  z-index: 8;
+  padding: 5px 10px;
+  opacity: 0.8;
+  overflow: hidden;
+  display: none;
+  -moz-opacity: 0.8;
+  filter: alpha(opacity=8);
+  -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+  -moz-box-sizing: border-box; /* Firefox, other Gecko */
+  box-sizing: border-box; /* Opera/IE 8+ */
+
+  display: block;
+  text-align: center;
+  font-size: xxx-large;
+  font-family: sans-serif;
+  height: 10.5%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 .nivo-caption p {
 	padding:5px;

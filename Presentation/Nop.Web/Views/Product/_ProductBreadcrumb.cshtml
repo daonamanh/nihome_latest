@@ -18,22 +18,24 @@
             <li>
                 <span>
                     <a href="@Url.RouteUrl("Homepage")">
-                        <span>@T("Products.Breadcrumb.Top")</span>
+						<span style="font-weight:bold">@T("Products.Breadcrumb.Top")</span>
                     </a>
                 </span>
-                <span class="delimiter">@breadcrumbDelimiter</span>
+                @* <span class="delimiter">@breadcrumbDelimiter</span> *@
+				<img src="/themes/defaultclean/content/images/breadcrumb-separate.svg" class="sc-jNHqnW jxIsDt">
             </li>            
             @foreach (var category in Model.CategoryBreadcrumb)
             {
                 <li>
                     <a href="@(Url.RouteUrl<Category>(new { SeName = category.SeName }))">
-                        <span>@category.Name</span>
+                        <span style="font-weight:bold">@category.Name</span>
                     </a>
-                    <span class="delimiter">@breadcrumbDelimiter</span>
+                    @* <span class="delimiter">@breadcrumbDelimiter</span> *@
+					<img src="/themes/defaultclean/content/images/breadcrumb-separate.svg" class="sc-jNHqnW jxIsDt">
                 </li>
             }
             <li>
-                <strong class="current-item">@Model.ProductName</strong>
+                <strong class="current-item" style="font-weight:bold">@Model.ProductName</strong>
                 <span id="@(Url.RouteUrl<Product>(new { SeName = Model.ProductSeName }))"></span>              
                 @await Component.InvokeAsync(typeof(WidgetViewComponent), new { widgetZone = PublicWidgetZones.ProductBreadcrumbAfter, additionalData = Model })
             </li>

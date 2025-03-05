@@ -38,7 +38,8 @@ namespace Nop.Web.Areas.Admin.Controllers
                      Id = entity.Id,
                      Name = entity.Name,
                      Description = entity.Description,
-                     PictureUrl = entity.PictureUrl  // Load the picture URL
+                     PictureUrl = entity.PictureUrl, // Load the picture URL
+                     Date = entity.Date
                  }).ToList();
 
             return View(model);
@@ -54,7 +55,8 @@ namespace Nop.Web.Areas.Admin.Controllers
                      Id = entity.Id,
                      Name = entity.Name,
                      Description = entity.Description,
-                     PictureUrl = entity.PictureUrl
+                     PictureUrl = entity.PictureUrl,
+                     Date = entity.Date
                  }).ToList();
 
             // Ensure you're returning the correct view path
@@ -72,6 +74,7 @@ namespace Nop.Web.Areas.Admin.Controllers
             {
                 Name = model.Name,
                 Description = model.Description,
+                Date = model.Date,
                 PictureUrl = await SavePictureAsync(model.PictureUpload)  // Save the picture
             };
             await _customService.InsertEntityAsync(entity);
@@ -96,6 +99,7 @@ namespace Nop.Web.Areas.Admin.Controllers
             {
                 Name = model.Name,
                 Description = model.Description,
+                Date = model.Date,
                 PictureUrl = await SavePictureAsync(model.PictureUpload)  // Save the picture
             };
             await _customService.InsertEntityAsync(entity);
@@ -115,6 +119,7 @@ namespace Nop.Web.Areas.Admin.Controllers
                 Id = entity.Id,
                 Name = entity.Name,
                 Description = entity.Description,
+                Date = entity.Date,
                 PictureUrl = entity.PictureUrl  // Load the picture URL
             };
 
@@ -133,6 +138,7 @@ namespace Nop.Web.Areas.Admin.Controllers
 
             entity.Name = model.Name;
             entity.Description = model.Description;
+            entity.Date = model.Date;
 
             // Update the picture if a new one was uploaded
             if (model.PictureUpload != null)
@@ -186,6 +192,20 @@ namespace Nop.Web.Areas.Admin.Controllers
             // Return the absolute URL to the picture
             return $"{Request.Scheme}://{Request.Host}/{_picturePath}{fileName}";
         }
+        //public IActionResult Search(string searchQuery)
+        //{
+        //    var items = _customService.GetAllItems(); // Replace with your data retrieval method
+
+        //    if (!string.IsNullOrEmpty(searchQuery))
+        //    {
+        //        // Filter items based on search query (e.g., Name or Description contains searchQuery)
+        //        items = items.Where(i => i.Name.Contains(searchQuery, StringComparison.OrdinalIgnoreCase) ||
+        //                                 i.Description.Contains(searchQuery, StringComparison.OrdinalIgnoreCase)).ToList();
+        //    }
+
+        //    return View(items);
+        //}
+
 
 
         #endregion

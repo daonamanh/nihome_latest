@@ -1,5 +1,5 @@
 ﻿using Nop.Web.Framework.Models;
-
+using System.ComponentModel.DataAnnotations; // Add this line
 namespace Nop.Web.Areas.Admin.Models.Custom
 {
     public record CustomTableModel : BaseNopEntityModel
@@ -11,6 +11,9 @@ namespace Nop.Web.Areas.Admin.Models.Custom
 
         // Optional property for uploading an image
         public IFormFile PictureUpload { get; set; }
+        [DataType(DataType.Date)]
+        public DateTime Date { get; set; }
+       
     }
 }
 

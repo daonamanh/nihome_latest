@@ -8,7 +8,7 @@
 @inject SeoSettings seoSettings
 
 @{
-    Layout = "_ColumnsTwo";
+    // Layout = "_ColumnsTwo";
 
     //title
     NopHtml.AddTitleParts(!string.IsNullOrEmpty(Model.MetaTitle) ? Model.MetaTitle : Model.Name);
@@ -25,50 +25,356 @@
     }
 }
 
-@section CatalogFilters {
+@* @section CatalogFilters {
     @await Component.InvokeAsync(typeof(WidgetViewComponent), new { widgetZone = PublicWidgetZones.ManufacturerDetailsBeforeFilters, additionalData = Model })
     @await Html.PartialAsync("_CatalogFilters", Model.CatalogProductsModel)
-}
+} *@
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+<style>
+	/* Default tab styles */
+	.btn-tabs {
+		font-family: sans-serif;
+		text-decoration: none;
+		color: black;
+		font-weight: normal;
+	}
 
+	/* Active tab styles */
+	.active-tab {
+		font-weight: bold !important; /* Make text bold */
+		color: black !important; /* Text color black */
+		text-decoration: underline !important;
+		text-decoration-color: #f77e3e !important; /* Orange underline */
+		text-underline-thickness: 3px !important; /* Thicker underline */
+		text-underline-offset: 14px !important; /* Adjust the position of the underline */
+	}
+
+</style>
 <div class="page manufacturer-page">
     <div class="page-title">
         <h1>@Model.Name</h1>
     </div>
-    <div class="page-body">
-        @await Component.InvokeAsync(typeof(WidgetViewComponent), new { widgetZone = PublicWidgetZones.ManufacturerDetailsTop, additionalData = Model })
-        @*description*@
-        @if (!string.IsNullOrWhiteSpace(Model.Description))
-        {
-            <div class="manufacturer-description">
-                @Html.Raw(Model.Description)
-            </div>
-        }
-        @await Component.InvokeAsync(typeof(WidgetViewComponent), new { widgetZone = PublicWidgetZones.ManufacturerDetailsBeforeFeaturedProducts, additionalData = Model })
-        @*featured products*@
-        @if (Model.FeaturedProducts.Count > 0)
-        {
-            <div class="product-grid featured-product-grid">
-                <div class="title">
-                    <strong>@T("Products.FeaturedProducts")</strong>
-                </div>
-                <div class="item-grid">
-                    @foreach (var product in Model.FeaturedProducts)
-                    {
-                        <div class="item-box">
-                            @await Html.PartialAsync("_ProductBox", product)
-                        </div>
-                    }
-                </div>
-            </div>
-        }
-        @await Component.InvokeAsync(typeof(WidgetViewComponent), new { widgetZone = PublicWidgetZones.ManufacturerDetailsAfterFeaturedProducts, additionalData = Model })
-        @await Html.PartialAsync("_CatalogSelectors", Model.CatalogProductsModel)
-        @await Component.InvokeAsync(typeof(WidgetViewComponent), new { widgetZone = PublicWidgetZones.ManufacturerDetailsBeforeProductList, additionalData = Model })
-        @{
-            var catalogProductsViewData = new ViewDataDictionary(ViewData);
-            catalogProductsViewData["fetchUrl"] = Html.Raw(Url.RouteUrl("GetManufacturerProducts", new { manufacturerId = Model.Id }));
-        }
-        @await Html.PartialAsync("_CatalogProducts", Model.CatalogProductsModel, catalogProductsViewData)
-        @await Component.InvokeAsync(typeof(WidgetViewComponent), new { widgetZone = PublicWidgetZones.ManufacturerDetailsBottom, additionalData = Model })
-    </div>
+	<a href="@(Url.RouteUrl<Manufacturer>(new { SeName = Model.SeName }))" title="@Model.PictureModel.Title">
+		<img style="width: -webkit-fill-available;" alt="@Model.PictureModel.AlternateText" src="@Model.PictureModel.ImageUrl" title="@Model.PictureModel.Title" />
+	</a>
+
+	<div class="sc-uojGG idKXTw tabs-container sticky-top" style="    border: 1px solid #ddd;
+    border-bottom: 0;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;">
+		<div>
+			<div class="extensiontabs-box MuiBox-root css-0">
+				<div class="MuiTabs-root css-jge34e">
+					<div class="MuiTabs-scrollableX MuiTabs-hideScrollbar css-oqr85h" style="width: 99px; height: 99px; position: absolute; top: -9999px; overflow: scroll;"></div>
+					<div class="MuiTabs-scroller MuiTabs-hideScrollbar MuiTabs-scrollableX css-12qnib" style="margin-bottom: 0px;">
+						<div style="justify-content:left" aria-label="scrollable prevent tabs example" class="MuiTabs-flexContainer css-k008qs" role="tablist">
+							<a class="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary btn btn-tabs css-1cy7a6h active-tab" onclick="setActiveTab(this)" tabindex="0" role="tab" aria-selected="true" href="#overview" style="border:0!important;background-color:white;font-family: sans-serif;text-decoration:none">Giới thiệu</a>
+							<a class="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary btn btn-tabs css-1cy7a6h" onclick="setActiveTab(this)" tabindex="-1" role="tab" aria-selected="false" href="#roomlist" style="border:0!important;background-color:white;font-family: sans-serif;text-decoration:none">Chọn phòng</a>
+							<a class="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary btn btn-tabs css-1cy7a6h" onclick="setActiveTab(this)" tabindex="-1" role="tab" aria-selected="false" href="#location" style="border:0!important;background-color:white;font-family: sans-serif;text-decoration:none">Vị trí</a>
+						</div>
+						<span class="MuiTabs-indicator css-3eqeqk" style="left: 40px; width: 125px;"></span>
+					</div>
+				</div>
+			</div>
+			<div class="line bg-color"></div>
+		</div>
+	</div>
+	<div class="room-description">
+		<div class="room-description-top">
+			<div class="sc-kjOQFR bAyBoG">
+				<div class="sc-eySxxw ewvsDq">
+					<h2 class="sc-cTAIfT kEYQxp" style="    font-size: 48px;
+    font-weight: 600;
+    line-height: 56px;
+    color: black;">
+						@Model.Name
+					</h2>
+				</div><div class="sc-cqJhZP cvuNq" style="    font-size: 15px;
+    font-weight: 300;
+    line-height: 26px;
+    color: black;
+    margin-top: 20px;">
+					Tọa lạc ngay tại khu phố Tây nổi tiếng giữa trung tâm Sài Gòn, toà nhà mang vẻ đẹp cổ điển pha lẫn hiện đại với kiến trúc mái vòm và gam màu nóng trẻ trung. Đây là một nơi lưu trú lý tưởng có nhiều không gian tiện ích ngay trong toà nhà.
+				</div><div class="py-3">
+					<div class="sc-jNHqnW klSpZf" style="    font-size: 24px;
+    font-weight: 500;
+    line-height: 32px;
+    color: rgb(19, 19, 19);
+    margin-bottom: 30px;
+    margin-top: 20px;">
+						Tiện nghi được ưu chuộng nhất
+					</div><div class="sc-DtmNo brdFov">
+						<div>
+							<div class="row" style="    display: flex;
+    flex-wrap: wrap;
+    margin-right: -15px;
+    margin-left: -15px;">
+								<div class="sc-fvpsdx iqYrew col-6 col-sm-6 col-md-4 mb-4 item"><img src="https://cdn-v2.mvillage.vn/cms/image_1487120859_65fb3e583b.jpg" class="sc-ihINtW jrzgJN"><span class="sc-jefHZX gKfcif">TV trong phòng</span></div><div class="sc-fvpsdx iqYrew col-6 col-sm-6 col-md-4 mb-4 item"><img src="https://cdn-v2.mvillage.vn/cms/image_1787643663_cb08ca15bd.jpg" class="sc-ihINtW jrzgJN"><span class="sc-jefHZX gKfcif">Phòng giặt miễn phí</span></div><div class="sc-fvpsdx iqYrew col-6 col-sm-6 col-md-4 mb-4 item"><img src="https://cdn-v2.mvillage.vn/cms/image_4028479489_1d1ed261b2.jpg" class="sc-ihINtW jrzgJN"><span class="sc-jefHZX gKfcif">Dịch vụ dọn phòng</span></div><div class="sc-fvpsdx iqYrew col-6 col-sm-6 col-md-4 mb-4 item"><img src="https://cdn-v2.mvillage.vn/cms/image_3752229727_ce419f8add.jpg" class="sc-ihINtW jrzgJN"><span class="sc-jefHZX gKfcif">Miễn phí sử dụng hồ bơi</span></div><div class="sc-fvpsdx iqYrew col-6 col-sm-6 col-md-4 mb-4 item"><img src="https://cdn-v2.mvillage.vn/cms/image_2739333463_fe84952729.jpg" class="sc-ihINtW jrzgJN"><span class="sc-jefHZX gKfcif">Phòng Gym miễn phí</span></div><div class="sc-fvpsdx iqYrew col-6 col-sm-6 col-md-4 mb-4 item"><img src="https://cdn-v2.mvillage.vn/cms/image_495798498_681b2d8c54.jpg" class="sc-ihINtW jrzgJN"><span class="sc-jefHZX gKfcif">An ninh 24/7</span></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="room-description-bottom">
+			<div class="sc-bXdNzS dZNypF" style="    flex: 1 1 0%;
+    ;">
+				 @* min-width: 350px *@
+				<div class="overview-map" style="    padding-top: 48%;
+    position: relative;">
+					<div style="    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;">
+						<a target="_blank" class="d-block" href="https://www.google.com/maps/search/M Village Hotel Tôn Thất Đạm"><span style="box-sizing: border-box; display: block; overflow: hidden; width: initial; height: initial; background: none; opacity: 1; border: 0px; margin: 0px; padding: 0px; position: absolute; inset: 0px;"><img src="https://img.mvillage.vn/x_wtff2QuimFXC3kx1aituypAd4-P-m7EuSnWEPvZRc/rs:fit:1280:1280/plain/https%3A%2F%2Fmaps.googleapis.com%2Fmaps%2Fapi%2Fstaticmap%3Fcenter%3D10.772475674010613%252C106.70254636608158%26key%3DAIzaSyCS28dOz7SpldsodQRDu6kiQIN9I2IqLuQ%26markers%3Dcolor%253Aorange%257Clabel%253AM%257C10.772475674010613%252C106.70254636608158%26scale%3D2%26size%3D1280x1280%26zoom%3D18" decoding="async" data-nimg="fill" style="position: absolute; inset: 0px; box-sizing: border-box; padding: 0px; border: none; margin: auto; display: block; width: 0px; height: 0px; min-width: 100%; max-width: 100%; min-height: 100%; max-height: 100%;"></span></a>
+					</div>
+				</div><div class="overview-address" style="    font-size: 16px;
+    line-height: 24px;
+    font-weight: 400;
+    padding-top: 10px;
+    color: rgb(88, 89, 91);">
+					325 - 327 Phạm Ngũ Lão, P. Phạm Ngũ Lão, Q.1, HCM
+				</div><div>
+					<div class="overview-area-heading" style="    font-size: 18px;
+    line-height: 26px;
+    font-weight: 600;
+    padding-top: 16px;
+    padding-bottom: 8px;">
+						Khám phá khu vực
+					</div><div><div class="d-flex justify-content-between"><div class="d-flex mb-2 flex-1"><div class="explore-text">Ănăn Sài Gòn</div></div><div class="explore-text distance">0.09 km</div></div><div class="d-flex justify-content-between"><div class="d-flex mb-2 flex-1"><div class="explore-text">Cơm Thố Xá Lị</div></div><div class="explore-text distance">0.12 km</div></div><div class="d-flex justify-content-between"><div class="d-flex mb-2 flex-1"><div class="explore-text">Phố Đi bộ Nguyễn Huệ</div></div><div class="explore-text distance">0.21 km</div></div><div class="d-flex justify-content-between"><div class="d-flex mb-2 flex-1"><div class="explore-text">Hủ tiếu Mỹ Tho Thanh Xuân</div></div><div class="explore-text distance">0.26 km</div></div></div>
+				</div><a class="mv-text orange underline pt-3 cursor-pointer d-flex align-items-center" target="_blank" href="https://houseguide.mvillage.vn/m-village-ton-that-dam-1?_gl=1*lno9do*_gcl_au*NDkxNjA1OTIxLjE3MzMxNDIzMTc.*_ga*NDA0MTE3NDc1LjE3MjQzMzQ0NDk.*_ga_GXM9ZY16YK*MTczNDI1MTk2OS4yMi4xLjE3MzQyNTIwNjYuNTMuMC44MTAwNjI0MA..">Xem thêm tại House Guide<span class="icon ml-2"><span style="box-sizing: border-box; display: block; overflow: hidden; width: initial; height: initial; background: none; opacity: 1; border: 0px; margin: 0px; padding: 0px; position: absolute; inset: 0px;"><img src="/_next/image?url=%2Fimages%2Fsvg%2Fexternal-link.svg&amp;w=3840&amp;q=75" decoding="async" data-nimg="fill" style="position: absolute; inset: 0px; box-sizing: border-box; padding: 0px; border: none; margin: auto; display: block; width: 0px; height: 0px; min-width: 100%; max-width: 100%; min-height: 100%; max-height: 100%;" sizes="100vw" srcset="/_next/image?url=%2Fimages%2Fsvg%2Fexternal-link.svg&amp;w=640&amp;q=75 640w, /_next/image?url=%2Fimages%2Fsvg%2Fexternal-link.svg&amp;w=750&amp;q=75 750w, /_next/image?url=%2Fimages%2Fsvg%2Fexternal-link.svg&amp;w=828&amp;q=75 828w, /_next/image?url=%2Fimages%2Fsvg%2Fexternal-link.svg&amp;w=1080&amp;q=75 1080w, /_next/image?url=%2Fimages%2Fsvg%2Fexternal-link.svg&amp;w=1200&amp;q=75 1200w, /_next/image?url=%2Fimages%2Fsvg%2Fexternal-link.svg&amp;w=1920&amp;q=75 1920w, /_next/image?url=%2Fimages%2Fsvg%2Fexternal-link.svg&amp;w=2048&amp;q=75 2048w, /_next/image?url=%2Fimages%2Fsvg%2Fexternal-link.svg&amp;w=3840&amp;q=75 3840w"></span></span></a>
+			</div>
+		</div>
+	</div>
+	<div id="roomlist" class="sc-juEPzu pcFsT" style="padding-top: 2rem;position: relative;z-index: 10;padding:0.5rem">
+		<div class="branch-rooms-title" style="font-size: 36px;font-weight: 500;line-height: 43px;margin-bottom: 24px;">
+			Lựa chọn phòng
+		</div>
+		<div class="page-body">
+			@await Component.InvokeAsync(typeof(WidgetViewComponent), new { widgetZone = PublicWidgetZones.ManufacturerDetailsTop, additionalData = Model })
+			@*description*@
+			@*         @if (!string.IsNullOrWhiteSpace(Model.Description))
+			{
+			<div class="manufacturer-description">
+			@Html.Raw(Model.Description)
+			</div>
+			} *@
+			@await Component.InvokeAsync(typeof(WidgetViewComponent), new { widgetZone = PublicWidgetZones.ManufacturerDetailsBeforeFeaturedProducts, additionalData = Model })
+			@*featured products*@
+			@if (Model.FeaturedProducts.Count > 0)
+			{
+				<div class="product-grid featured-product-grid">
+					<div class="title">
+						<strong>@T("Products.FeaturedProducts")</strong>
+					</div>
+					<div class="item-grid">
+						@foreach (var product in Model.FeaturedProducts)
+						{
+							<div class="item-box">
+								@await Html.PartialAsync("_ProductBox", product)
+							</div>
+						}
+					</div>
+				</div>
+			}
+			@await Component.InvokeAsync(typeof(WidgetViewComponent), new { widgetZone = PublicWidgetZones.ManufacturerDetailsAfterFeaturedProducts, additionalData = Model })
+			@*  @await Html.PartialAsync("_CatalogSelectors", Model.CatalogProductsModel) *@
+			@await Component.InvokeAsync(typeof(WidgetViewComponent), new { widgetZone = PublicWidgetZones.ManufacturerDetailsBeforeProductList, additionalData = Model })
+			@{
+				var catalogProductsViewData = new ViewDataDictionary(ViewData);
+				catalogProductsViewData["fetchUrl"] = Html.Raw(Url.RouteUrl("GetManufacturerProducts", new { manufacturerId = Model.Id }));
+			}
+			@await Html.PartialAsync("_CatalogProducts", Model.CatalogProductsModel, catalogProductsViewData)
+			@await Component.InvokeAsync(typeof(WidgetViewComponent), new { widgetZone = PublicWidgetZones.ManufacturerDetailsBottom, additionalData = Model })
+		</div>
+		@* <div class="row branch-rooms__list" style="margin-bottom: -1.875rem;display: flex;flex-wrap: wrap;margin-right: -15px;margin-left: -15px;">
+			<div class="col-12 col-md-6 col-lg-4 branch-rooms__list__item">
+				<div id="room-phong-deluxe-tai-m-village-ton-that-dam" class="sc-gDGHff ifFaPj h-100 cursor-pointer scroll-offset">
+					<div class="room-name">Phòng  Deluxe  </div>
+					<div class="room-info" style="display: flex;gap: 12.5%;padding-bottom: 12px;font-family: sans-serif;margin-left: 5%;margin-right: 5%;">
+						<div class="sc-iLOkMM ermkdN">
+							<div class="_icon">
+								<img src="/Themes/DefaultClean/Content/images/area.svg" alt="[object Object]">
+							</div>
+							<div class="_content body-2-regular">
+								<div>28  m²</div>
+							</div>
+						</div>
+						<div class="sc-iLOkMM ermkdN">
+							<div class="_icon">
+								<img src="/Themes/DefaultClean/Content/images/bed-room.svg" alt="Giường đôi">
+							</div>
+							<div class="_content body-2-regular">Giường đôi</div>
+						</div>
+						<div class="sc-iLOkMM ermkdN">
+							<div class="_icon">
+								<img src="/Themes/DefaultClean/Content/images/people.svg" alt="2 người">
+							</div>
+							<div class="_content body-2-regular">2 người</div>
+						</div>
+					</div>
+					<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+						<ol class="carousel-indicators">
+							<li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+							<li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+						</ol>
+						<div class="carousel-inner">
+							<div class="carousel-item active">
+								<img class="d-block w-100" style="width:362px;height:250px" src="/Themes/DefaultClean/Content/images/https2F%2Fcdn-v2.jpeg" alt="First slide">
+							</div>
+							<div class="carousel-item">
+								<img class="d-block w-100" style="width:362px;height:250px" src="/Themes/DefaultClean/Content/images/image_323543141_964b410783-ezgif.com-webp-to-jpg-converter.jpg" alt="Second slide">
+							</div>
+						</div>
+						<a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+							<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+							<span class="sr-only">Previous</span>
+						</a>
+						<a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+							<span class="carousel-control-next-icon" aria-hidden="true"></span>
+							<span class="sr-only">Next</span>
+						</a>
+					</div>
+					<div class="room-feature"><div class="sc-iLOkMM ermkdN"><div class="_icon"><img src="https://cdn-v2.mvillage.vn/cms/image_1779660879_ed4a54432f.jpg" alt="Wifi tốc độ cao"></div><div class="_content body-2-regular">Wifi tốc độ cao</div></div><div class="sc-iLOkMM ermkdN"><div class="_icon"><img src="https://cdn-v2.mvillage.vn/cms/image_32984915_808bb5b521.jpg" alt="Phòng tắm tiện nghi"></div><div class="_content body-2-regular">Phòng tắm tiện nghi</div></div><div class="sc-iLOkMM ermkdN"><div class="_icon"><img src="https://cdn-v2.mvillage.vn/cms/image_1065363469_24a0618ae8.jpg" alt="Cửa sổ đón nắng tự nhiên"></div><div class="_content body-2-regular">Cửa sổ đón nắng tự nhiên</div></div></div><div class="divider-hoz"></div><div class="room-card-footer room-price"><div class="flex-1 price-container"><div class="price-value">35.500.000</div><div class="price-unit"> Đồng / Tháng</div></div><div class="select-button-wrapper"><button class="select-button ">Đặt phòng</button></div></div>
+				</div>
+			</div>
+			<div class="col-12 col-md-6 col-lg-4 branch-rooms__list__item">
+				<div id="room-phong-deluxe-tai-m-village-ton-that-dam" class="sc-gDGHff ifFaPj h-100 cursor-pointer scroll-offset">
+					<div class="room-name">Phòng  Deluxe  </div>
+					<div class="room-info" style="display: flex;gap: 12.5%;padding-bottom: 12px;font-family: sans-serif;margin-left: 5%;margin-right: 5%;">
+						<div class="sc-iLOkMM ermkdN">
+							<div class="_icon">
+								<img src="/Themes/DefaultClean/Content/images/area.svg" alt="[object Object]">
+							</div>
+							<div class="_content body-2-regular">
+								<div>28  m²</div>
+							</div>
+						</div>
+						<div class="sc-iLOkMM ermkdN">
+							<div class="_icon">
+								<img src="/Themes/DefaultClean/Content/images/bed-room.svg" alt="Giường đôi">
+							</div>
+							<div class="_content body-2-regular">Giường đôi</div>
+						</div>
+						<div class="sc-iLOkMM ermkdN">
+							<div class="_icon">
+								<img src="/Themes/DefaultClean/Content/images/people.svg" alt="2 người">
+							</div>
+							<div class="_content body-2-regular">2 người</div>
+						</div>
+					</div>
+					<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+						<ol class="carousel-indicators">
+							<li data-target="#carouselExampleIndicators" data-slide-to="2" class="active"></li>
+							<li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
+						</ol>
+						<div class="carousel-inner">
+							<div class="carousel-item active">
+								<img class="d-block w-100" style="width:362px;height:250px" src="/Themes/DefaultClean/Content/images/https2F%2Fcdn-v2.jpeg" alt="First slide">
+							</div>
+							<div class="carousel-item">
+								<img class="d-block w-100" style="width:362px;height:250px" src="/Themes/DefaultClean/Content/images/image_323543141_964b410783-ezgif.com-webp-to-jpg-converter.jpg" alt="Second slide">
+							</div>
+						</div>
+						<a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+							<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+							<span class="sr-only">Previous</span>
+						</a>
+						<a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+							<span class="carousel-control-next-icon" aria-hidden="true"></span>
+							<span class="sr-only">Next</span>
+						</a>
+					</div>
+					<div class="room-feature"><div class="sc-iLOkMM ermkdN"><div class="_icon"><img src="https://cdn-v2.mvillage.vn/cms/image_1779660879_ed4a54432f.jpg" alt="Wifi tốc độ cao"></div><div class="_content body-2-regular">Wifi tốc độ cao</div></div><div class="sc-iLOkMM ermkdN"><div class="_icon"><img src="https://cdn-v2.mvillage.vn/cms/image_32984915_808bb5b521.jpg" alt="Phòng tắm tiện nghi"></div><div class="_content body-2-regular">Phòng tắm tiện nghi</div></div><div class="sc-iLOkMM ermkdN"><div class="_icon"><img src="https://cdn-v2.mvillage.vn/cms/image_1065363469_24a0618ae8.jpg" alt="Cửa sổ đón nắng tự nhiên"></div><div class="_content body-2-regular">Cửa sổ đón nắng tự nhiên</div></div></div><div class="divider-hoz"></div><div class="room-card-footer room-price"><div class="flex-1 price-container"><div class="price-value">35.500.000</div><div class="price-unit"> Đồng / Tháng</div></div><div class="select-button-wrapper"><button class="select-button ">Đặt phòng</button></div></div>
+				</div>
+			</div>
+			<div class="col-12 col-md-6 col-lg-4 branch-rooms__list__item">
+				<div id="room-phong-deluxe-tai-m-village-ton-that-dam" class="sc-gDGHff ifFaPj h-100 cursor-pointer scroll-offset">
+					<div class="room-name">Phòng  Deluxe  </div>
+					<div class="room-info" style="display: flex;gap: 12.5%;padding-bottom: 12px;font-family: sans-serif;margin-left: 5%;margin-right: 5%;">
+						<div class="sc-iLOkMM ermkdN">
+							<div class="_icon">
+								<img src="/Themes/DefaultClean/Content/images/area.svg" alt="[object Object]">
+							</div>
+							<div class="_content body-2-regular">
+								<div>28  m²</div>
+							</div>
+						</div>
+						<div class="sc-iLOkMM ermkdN">
+							<div class="_icon">
+								<img src="/Themes/DefaultClean/Content/images/bed-room.svg" alt="Giường đôi">
+							</div>
+							<div class="_content body-2-regular">Giường đôi</div>
+						</div>
+						<div class="sc-iLOkMM ermkdN">
+							<div class="_icon">
+								<img src="/Themes/DefaultClean/Content/images/people.svg" alt="2 người">
+							</div>
+							<div class="_content body-2-regular">2 người</div>
+						</div>
+					</div>
+					<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+						<ol class="carousel-indicators">
+							<li data-target="#carouselExampleIndicators" data-slide-to="4" class="active"></li>
+							<li data-target="#carouselExampleIndicators" data-slide-to="5"></li>
+						</ol>
+						<div class="carousel-inner">
+							<div class="carousel-item active">
+								<img class="d-block w-100" style="width:362px;height:250px" src="/Themes/DefaultClean/Content/images/https2F%2Fcdn-v2.jpeg" alt="First slide">
+							</div>
+							<div class="carousel-item">
+								<img class="d-block w-100" style="width:362px;height:250px" src="/Themes/DefaultClean/Content/images/image_323543141_964b410783-ezgif.com-webp-to-jpg-converter.jpg" alt="Second slide">
+							</div>
+						</div>
+						<a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+							<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+							<span class="sr-only">Previous</span>
+						</a>
+						<a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+							<span class="carousel-control-next-icon" aria-hidden="true"></span>
+							<span class="sr-only">Next</span>
+						</a>
+					</div>
+					<div class="room-feature"><div class="sc-iLOkMM ermkdN"><div class="_icon"><img src="https://cdn-v2.mvillage.vn/cms/image_1779660879_ed4a54432f.jpg" alt="Wifi tốc độ cao"></div><div class="_content body-2-regular">Wifi tốc độ cao</div></div><div class="sc-iLOkMM ermkdN"><div class="_icon"><img src="https://cdn-v2.mvillage.vn/cms/image_32984915_808bb5b521.jpg" alt="Phòng tắm tiện nghi"></div><div class="_content body-2-regular">Phòng tắm tiện nghi</div></div><div class="sc-iLOkMM ermkdN"><div class="_icon"><img src="https://cdn-v2.mvillage.vn/cms/image_1065363469_24a0618ae8.jpg" alt="Cửa sổ đón nắng tự nhiên"></div><div class="_content body-2-regular">Cửa sổ đón nắng tự nhiên</div></div></div><div class="divider-hoz"></div><div class="room-card-footer room-price"><div class="flex-1 price-container"><div class="price-value">35.500.000</div><div class="price-unit"> Đồng / Tháng</div></div><div class="select-button-wrapper"><button class="select-button ">Đặt phòng</button></div></div>
+				</div>
+			</div>
+		</div> *@
+	</div>
+	<div id="location" class="sc-cTAIfT hYBrSV" style="margin-bottom:4%">
+		<div class="inner">
+			<div class="house-guide__info"><div class="mv-heading-2 house-guide__title">@Model.Name có gì vui quanh đây?</div><div style="font-size:16px!important" class="mv-text"> @Html.Raw(Model.Description)</div><a class="mv-text orange underline pt-3 cursor-pointer d-flex align-items-center" target="_blank" href="https://houseguide.mvillage.vn/m-village-ton-that-dam-1">Xem thêm tại House Guide<span class="icon ml-2"><span style="box-sizing: border-box; display: block; overflow: hidden; width: initial; height: initial; background: none; opacity: 1; border: 0px; margin: 0px; padding: 0px; position: absolute; inset: 0px;"><img src="/_next/image?url=%2Fimages%2Fsvg%2Fexternal-link.svg&amp;w=3840&amp;q=75" decoding="async" data-nimg="fill" sizes="100vw" srcset="/_next/image?url=%2Fimages%2Fsvg%2Fexternal-link.svg&amp;w=640&amp;q=75 640w, /_next/image?url=%2Fimages%2Fsvg%2Fexternal-link.svg&amp;w=750&amp;q=75 750w, /_next/image?url=%2Fimages%2Fsvg%2Fexternal-link.svg&amp;w=828&amp;q=75 828w, /_next/image?url=%2Fimages%2Fsvg%2Fexternal-link.svg&amp;w=1080&amp;q=75 1080w, /_next/image?url=%2Fimages%2Fsvg%2Fexternal-link.svg&amp;w=1200&amp;q=75 1200w, /_next/image?url=%2Fimages%2Fsvg%2Fexternal-link.svg&amp;w=1920&amp;q=75 1920w, /_next/image?url=%2Fimages%2Fsvg%2Fexternal-link.svg&amp;w=2048&amp;q=75 2048w, /_next/image?url=%2Fimages%2Fsvg%2Fexternal-link.svg&amp;w=3840&amp;q=75 3840w" style="position: absolute; inset: 0px; box-sizing: border-box; padding: 0px; border: none; margin: auto; display: block; width: 0px; height: 0px; min-width: 100%; max-width: 100%; min-height: 100%; max-height: 100%;"></span></span></a></div><div class="house-guide__content" >
+				<div class="house-guide__nearby-list-block">
+					<div class="house-guide__nearby">
+						<div class="mv-text house-guide__nearby__title" style="    font-weight: 600;
+    padding-bottom: 1rem;
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;">
+							<div class="icon">
+								<i style="color:#000" class="fa-solid fa-location-dot"> </i>
+							</div>
+							<span style="font-size:16px!important">Địa điểm xung quanh</span>
+						</div><div class="house-guide__nearby__items-list"><div class="house-guide__nearby__item"><span class="mv-text">Ănăn Sài Gòn</span><span class="mv-text">0.09 km</span></div><div class="house-guide__nearby__item"><span class="mv-text">Cơm Thố Xá Lị</span><span class="mv-text">0.12 km</span></div><div class="house-guide__nearby__item"><span class="mv-text">Phố Đi bộ Nguyễn Huệ</span><span class="mv-text">0.21 km</span></div><div class="house-guide__nearby__item"><span class="mv-text">Hủ tiếu Mỹ Tho Thanh Xuân</span><span class="mv-text">0.26 km</span></div><div class="house-guide__nearby__item"><span class="mv-text">Bánh mì Như Lan</span><span class="mv-text">0.4 km</span></div><div class="house-guide__nearby__item"><span class="mv-text">7-Eleven</span><span class="mv-text">0.5 km</span></div><div class="house-guide__nearby__item"><span class="mv-text">KOI Thé</span><span class="mv-text">0.5 km</span></div><div class="house-guide__nearby__item"><span class="mv-text">Tòa nhà Bitexco</span><span class="mv-text">0.5 km</span></div><div class="house-guide__nearby__item"><span class="mv-text">Phở Thìn</span><span class="mv-text">0.5 km</span></div><div class="house-guide__nearby__item"><span class="mv-text">Annam Gourmet</span><span class="mv-text">0.55 km</span></div><div class="house-guide__nearby__item"><span class="mv-text">Takashimaya</span><span class="mv-text">0.55 km</span></div><div class="house-guide__nearby__item"><span class="mv-text">Bảo tàng Mỹ thuật TP. Hồ Chí Minh</span><span class="mv-text">0.7 km</span></div><div class="house-guide__nearby__item"><span class="mv-text">Little Hanoi Egg Coffee</span><span class="mv-text">1.1 km</span></div><div class="house-guide__nearby__item"><span class="mv-text">Trạm xe buýt 2 tầng</span><span class="mv-text">1.1 km</span></div><div class="house-guide__nearby__item"><span class="mv-text">ZION Sky Lounge and Dining</span><span class="mv-text">1.1 km</span></div><div class="house-guide__nearby__item"><span class="mv-text">Phố Đi Bộ Bùi Viện</span><span class="mv-text">1.7 km</span></div><div class="house-guide__nearby__item"><span class="mv-text">Sân Bay Tân Sơn Nhất</span><span class="mv-text">8.2 km</span></div></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+    
 </div>
+<script>
+	function setActiveTab(element) {
+		// Remove the active class from all tabs
+		document.querySelectorAll('.btn-tabs').forEach(tab => tab.classList.remove('active-tab'));
+
+		// Add the active class to the clicked tab
+		element.classList.add('active-tab');
+	}
+
+</script>

@@ -47,52 +47,63 @@
     }
 }
 
-<ul class="top-menu notmobile">
+<ul class="top-menu notmobile" style="font-family: Roboto, sans-serif;">
     @await Component.InvokeAsync(typeof(WidgetViewComponent), new { widgetZone = PublicWidgetZones.HeaderMenuBefore, additionalData = Model })
     @if (Model.DisplayHomepageMenuItem)
     {
         <li><a href="@Url.RouteUrl("Homepage")">@T("Homepage")</a></li>
     }
-    @if (!Model.UseAjaxMenu)
+
+     // @if (Model.NewProductsEnabled && Model.DisplayNewProductsMenuItem)
+     // {
+     //     <li><a href="@Url.RouteUrl("NewProducts")">@T("Products.NewProducts")</a></li>
+     // }
+    @if (Model.DisplayProductSearchMenuItem)
     {
-        var rootCategories = Model.Categories.Where(x => x.IncludeInTopMenu).ToList();
-        @foreach (var category in rootCategories)
-        {
-            var categoryLineModel = new TopMenuModel.CategoryLineModel
-            {
-                Category = category
-            };
-            await CategoryLine(categoryLineModel);
-        }
+        // <li><a href="@Url.RouteUrl("ProductSearch")">@T("Search")</a></li>
+			
+			<li><a class="nav-link" href="@Url.RouteUrl("NewsArchive")">@T("News")</a></li>
+    }
+    @if (Model.DisplayCustomerInfoMenuItem)
+    {
+        // <li><a href="@Url.RouteUrl("CustomerInfo")">@T("Account.MyAccount")</a></li>
+		<li>
+			<a href="@Url.RouteUrl("ManufacturerList")">
+				@T("Project")
+			</a>
+		</li>
 
     }
-    @foreach (var topic in Model.Topics)
+	@if (!Model.UseAjaxMenu)
+	{
+		var rootCategories = Model.Categories.Where(x => x.IncludeInTopMenu).ToList();
+		@foreach (var category in rootCategories)
+		{
+			var categoryLineModel = new TopMenuModel.CategoryLineModel
+					{
+						Category = category
+					};
+			await CategoryLine(categoryLineModel);
+		}
+
+	}
+     @if (Model.BlogEnabled && Model.DisplayBlogMenuItem)
+     {
+         // <li><a href="@Url.RouteUrl("Blog")">@T("Blog")</a></li>
+		<li><a href="@Url.RouteUrl("Blog")">@T("Blog")</a></li>
+     }
+    @if (Model.ForumEnabled && Model.DisplayForumsMenuItem)
     {
-        <li><a href="@(Url.RouteUrl<Topic>(new { SeName = topic.SeName }))">@topic.Name</a></li>
+        <li><a href="@Url.RouteUrl("Boards")">@T("Forum.Forums")</a></li>
     }
-    // @if (Model.NewProductsEnabled && Model.DisplayNewProductsMenuItem)
-    // {
-    //     <li><a href="@Url.RouteUrl("NewProducts")">@T("Products.NewProducts")</a></li>
-    // }
-    // @if (Model.DisplayProductSearchMenuItem)
-    // {
-    //     <li><a href="@Url.RouteUrl("ProductSearch")">@T("Search")</a></li>
-    // }
-    // @if (Model.DisplayCustomerInfoMenuItem)
-    // {
-    //     <li><a href="@Url.RouteUrl("CustomerInfo")">@T("Account.MyAccount")</a></li>
-    // }
-    // @if (Model.BlogEnabled && Model.DisplayBlogMenuItem)
-    // {
-    //     <li><a href="@Url.RouteUrl("Blog")">@T("Blog")</a></li>
-    // }
-    // @if (Model.ForumEnabled && Model.DisplayForumsMenuItem)
-    // {
-    //     <li><a href="@Url.RouteUrl("Boards")">@T("Forum.Forums")</a></li>
-    // }
+	@foreach (var topic in Model.Topics)
+	{
+		<li><a href="@(Url.RouteUrl<Topic>(new { SeName = topic.SeName }))">@topic.Name</a></li>
+	}
     @if (Model.DisplayContactUsMenuItem)
     {
-        <li><a href="@Url.RouteUrl("ContactUs")">@T("ContactUs")</a></li>
+        // <li><a href="@Url.RouteUrl("ContactUs")">@T("ContactUs")</a></li>
+		<li><a href="@Url.RouteUrl("ContactUs")">@T("ContactUs")</a></li>
     }
 	
 	

@@ -72,11 +72,15 @@
                                 </ul>
                             </div>
                         }
-                        <div class="buttons">
-                            @if (item.AllowComments)
-                            {
-                                <a href="@(Url.RouteUrl<BlogPost>(new { SeName = item.SeName }, fragment: "comments"))" class="read-comments">@string.Format(T("Blog.CommentsLink").Text, item.NumberOfComments)</a>
-                            }
+						<div style="margin-bottom:2%">
+							@if (item.AllowComments)
+							{
+								<a href="@(Url.RouteUrl<BlogPost>(new { SeName = item.SeName }, fragment: "comments"))" class="read-comments">@string.Format(T("Blog.CommentsLink").Text, item.NumberOfComments)</a>
+							}
+						</div>
+
+						<div class="buttons">
+                            
                             <a href="@(Url.RouteUrl<BlogPost>(new { SeName = item.SeName }))" class="read-more">@T("Blog.MoreInfo")</a>
                         </div>
                     </div>

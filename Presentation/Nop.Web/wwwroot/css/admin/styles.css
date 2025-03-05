@@ -1,4 +1,24 @@
 ﻿/* COMMON */
+.fa-building {
+  margin-left: 14px; /* Add left margin */
+  margin-right: 6px; /* Add right margin */
+}
+.fa-layer-group {
+  margin-left: 14px; /* Add left margin */
+  margin-right: 6px; /* Add right margin */
+}
+.fa-bell {
+  margin-left: 14px; /* Add left margin */
+  margin-right: 6px; /* Add right margin */
+}
+.fa-check {
+  margin-left: 14px; /* Add left margin */
+  margin-right: 6px; /* Add right margin */
+}
+.fa-wrench {
+  margin-left: 14px; /* Add left margin */
+  margin-right: 6px; /* Add right margin */
+}
 .content, .content-wrapper > .content {
   padding: 0 10px 55px 10px;
 }
@@ -939,7 +959,7 @@ i.false-icon {
 }
 
 .brand-link .brand-image-xl {
-  max-height: 45px;
+  max-height: 40px;
 }
 
 .layout-fixed .brand-link {
@@ -1148,6 +1168,7 @@ div.dataTables_wrapper div.dataTables_processing .fa {
 
 .documentation-reference {
   margin-bottom: 10px;
+  display:none;
 }
 
 .documentation-reference i {

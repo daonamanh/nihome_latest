@@ -62,7 +62,7 @@ else
                     <i class="nav-icon @Url.Content(Model.IconClass)"></i>
                 </text>
             }
-            <p>
+            @* <p>
                 @Model.Title
                 @if (supportRtl)
                 {
@@ -72,7 +72,21 @@ else
                 {
                     <i class="right fas fa-angle-left "></i>
                 }
-            </p>
+            </p> *@
+			<p>
+				@Model.Title
+				@if (hasChildNodes)
+				{
+					@if (supportRtl)
+					{
+						<i class="right fas fa-angle-right"></i>
+					}
+					else
+					{
+						<i class="right fas fa-angle-left"></i>
+					}
+				}
+			</p>
         </a>
         @if (hasChildNodes)
         {

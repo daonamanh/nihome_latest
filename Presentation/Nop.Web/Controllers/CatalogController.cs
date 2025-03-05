@@ -216,7 +216,11 @@ public partial class CatalogController : BasePublicController
     public virtual async Task<IActionResult> ManufacturerAll()
     {
         var model = await _catalogModelFactory.PrepareManufacturerAllModelsAsync();
-
+        foreach (var manufacturer in model)
+        {
+            // Ensure the description is included (if necessary)
+            manufacturer.Price = manufacturer.Price ;  // or similar logic
+        }
         return View(model);
     }
 

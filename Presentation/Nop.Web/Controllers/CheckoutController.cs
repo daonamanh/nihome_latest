@@ -1555,7 +1555,7 @@ public partial class CheckoutController : BasePublicController
                         selectedCountryId: newAddress.CountryId,
                         overrideAttributesXml: customAttributes);
                     billingAddressModel.NewAddressPreselected = true;
-                    
+
                     return Json(new
                     {
                         update_section = new UpdateSectionJsonModel
