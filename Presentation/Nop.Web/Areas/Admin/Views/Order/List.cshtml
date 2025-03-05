@@ -169,7 +169,7 @@
                                                     <nop-select asp-for="OrderStatusIds" asp-items="Model.AvailableOrderStatuses" asp-multiple="true" />
                                                 </div>
                                             </div>
-                                            <div class="form-group row">
+                                           @*  <div class="form-group row">
                                                 <div class="col-md-4">
                                                     <nop-label asp-for="PaymentStatusIds" />
                                                 </div>
@@ -184,7 +184,7 @@
                                                 <div class="col-md-8">
                                                     <nop-select asp-for="ShippingStatusIds" asp-items="Model.AvailableShippingStatuses" asp-multiple="true" />
                                                 </div>
-                                            </div>
+                                            </div> *@
                                         </div>
                                         <div class="col-md-7">
                                             <div class="form-group row" @(Model.HideStoresList ? Html.Raw("style=\"display:none\"") : null)>
@@ -230,14 +230,14 @@
                                                     <nop-editor asp-for="BillingLastName" />
                                                 </div>
                                             </div>
-                                            <div class="form-group row" @(Model.AvailableCountries.SelectionIsNotPossible() ? Html.Raw("style=\"display:none\"") : null)>
+                                            @* <div class="form-group row" @(Model.AvailableCountries.SelectionIsNotPossible() ? Html.Raw("style=\"display:none\"") : null)>
                                                 <div class="col-md-4">
                                                     <nop-label asp-for="BillingCountryId" />
                                                 </div>
                                                 <div class="col-md-8">
                                                     <nop-select asp-for="BillingCountryId" asp-items="Model.AvailableCountries" />
                                                 </div>
-                                            </div>
+                                            </div> *@
                                             <div class="form-group row" @(Model.AvailablePaymentMethods.SelectionIsNotPossible() || Model.IsLoggedInAsVendor ? Html.Raw("style='display: none;'") : null)>
                                                 <div class="col-md-4">
                                                     <nop-label asp-for="PaymentMethodSystemName" />
@@ -341,19 +341,19 @@
                                             Render = new RenderCustom("renderColumnOrderStatus")
                                         });
                                     }
-                                    gridModel.ColumnCollection.Add(new ColumnProperty(nameof(OrderModel.PaymentStatus))
-                                    {
-                                        Title = T("Admin.Orders.Fields.PaymentStatus").Text,
-                                        Width = "150"
-                                    });
+                                    // gridModel.ColumnCollection.Add(new ColumnProperty(nameof(OrderModel.PaymentStatus))
+                                    // {
+                                    //     Title = T("Admin.Orders.Fields.PaymentStatus").Text,
+                                    //     Width = "150"
+                                    // });
                                     //a vendor does not have access to this functionality
                                     if (!Model.IsLoggedInAsVendor)
                                     {
-                                        gridModel.ColumnCollection.Add(new ColumnProperty(nameof(OrderModel.ShippingStatus))
-                                        {
-                                            Title = T("Admin.Orders.Fields.ShippingStatus").Text,
-                                            Width = "150"
-                                        });
+                                        // gridModel.ColumnCollection.Add(new ColumnProperty(nameof(OrderModel.ShippingStatus))
+                                        // {
+                                        //     Title = T("Admin.Orders.Fields.ShippingStatus").Text,
+                                        //     Width = "150"
+                                        // });
                                     }
                                     gridModel.ColumnCollection.Add(new ColumnProperty(nameof(OrderModel.CustomerEmail))
                                     {

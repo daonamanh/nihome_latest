@@ -159,6 +159,7 @@ public partial class NopStartup : INopStartup
         services.AddScoped<IGenericAttributeService, GenericAttributeService>();
         services.AddScoped<IMaintenanceService, MaintenanceService>();
         services.AddScoped<ICustomerService, CustomerService>();
+        services.AddScoped<ICityService, CityService>();
         services.AddScoped<ICustomerRegistrationService, CustomerRegistrationService>();
         services.AddScoped<ICustomerReportService, CustomerReportService>();
         services.AddScoped<IPermissionService, PermissionService>();

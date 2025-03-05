@@ -1215,8 +1215,16 @@ public partial class ProductModelFactory : IProductModelFactory
                 var modelMan = new ManufacturerBriefInfoModel
                 {
                     Id = manufacturer.Id,
+                    Description = manufacturer.Description,
+                    Price = manufacturer.Price,
                     Name = await _localizationService.GetLocalizedAsync(manufacturer, x => x.Name),
-                    SeName = await _urlRecordService.GetSeNameAsync(manufacturer)
+                    SeName = await _urlRecordService.GetSeNameAsync(manufacturer),
+                    PictureModel = new PictureModel
+                    {
+                        ImageUrl = await _pictureService.GetPictureUrlAsync(manufacturer.PictureId),
+                        Title = manufacturer.Name,
+                        AlternateText = manufacturer.Name
+                    }
                 };
 
                 return modelMan;
@@ -1376,6 +1384,7 @@ public partial class ProductModelFactory : IProductModelFactory
                 Name = await _localizationService.GetLocalizedAsync(product, x => x.Name),
                 ShortDescription = await _localizationService.GetLocalizedAsync(product, x => x.ShortDescription),
                 FullDescription = await _localizationService.GetLocalizedAsync(product, x => x.FullDescription),
+                Address = product.Address,
                 SeName = await _urlRecordService.GetSeNameAsync(product),
                 Sku = product.Sku,
                 ProductType = product.ProductType,
@@ -1486,6 +1495,7 @@ public partial class ProductModelFactory : IProductModelFactory
         {
             Id = product.Id,
             Name = await _localizationService.GetLocalizedAsync(product, x => x.Name),
+            Address = product.Address,
             ShortDescription = await _localizationService.GetLocalizedAsync(product, x => x.ShortDescription),
             FullDescription = await _localizationService.GetLocalizedAsync(product, x => x.FullDescription),
             MetaKeywords = await _localizationService.GetLocalizedAsync(product, x => x.MetaKeywords),

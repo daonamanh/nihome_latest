@@ -241,6 +241,9 @@ public partial class ManufacturerController : BaseAdminController
         if (ModelState.IsValid)
         {
             var manufacturer = model.ToEntity<Manufacturer>();
+            //manufacturer.CityId = model.CityId;
+            manufacturer.CityId = model.CityId;
+            manufacturer.DistrictId = model.DistrictId;
             manufacturer.CreatedOnUtc = DateTime.UtcNow;
             manufacturer.UpdatedOnUtc = DateTime.UtcNow;
             await _manufacturerService.InsertManufacturerAsync(manufacturer);
@@ -323,6 +326,9 @@ public partial class ManufacturerController : BaseAdminController
         {
             var prevPictureId = manufacturer.PictureId;
             manufacturer = model.ToEntity(manufacturer);
+            //manufacturer.CityId = model.CityId;
+            manufacturer.CityId = model.CityId;
+            manufacturer.DistrictId = model.DistrictId;
             manufacturer.UpdatedOnUtc = DateTime.UtcNow;
             await _manufacturerService.UpdateManufacturerAsync(manufacturer);
 

@@ -1677,9 +1677,10 @@ a.link-rss {
 }
 
 .blog-posts .buttons .read-more, .news-items .buttons .read-more {
+  border-radius: 23px;
+  text-decoration: none;
   display: inline-block;
   border: none;
-  background-color: #e15b64;
   padding: 10px 20px;
   font-size: 12px;
   color: #fff;
@@ -1702,6 +1703,9 @@ a.link-rss {
 .blog-posts .buttons, .news-items .buttons {
   margin: 0;
   padding: 0 10px;
+  font-family: Roboto, sans-serif;
+  border-radius: 23px;
+  width: max-content;
 }
 
 .post-body, .news-body {
@@ -1718,6 +1722,7 @@ a.link-rss {
   width: 400px;
   max-width: 100%;
   background-color: #fff;
+  border-radius:8px
 }
 
 @media (min-width: 1367px) {
@@ -1747,9 +1752,10 @@ a.link-rss {
   display: block;
   width: 100%;
   margin: 0 0 10px;
-  text-align: center;
-  font-size: 14px;
+  text-align: left;
+  font-size: 16px;
   color: #444;
+  margin-left: 10px;
 }
 
 .form-fields {
@@ -1826,7 +1832,7 @@ block p, .topic-page p, .post-body p, .news-body p {
 
 input[type="text"], input[type="email"], input[type="tel"], input[type="password"], textarea, select {
   border: 1px solid #ddd;
-  padding: 8px;
+  padding: 6px;
   vertical-align: middle;
 }
 
@@ -2021,7 +2027,7 @@ ul.top-menu.mobile {
   height: auto;
   margin: 0;
   padding: 0;
-  width: 50%;
+  width: 71%;
   clear: both;
 }
 
@@ -2030,7 +2036,7 @@ ul.top-menu.mobile {
   height: auto;
   margin: 0;
   padding: 0;
-  width: 50%;
+  width: 29%;
 }
 
 div#logo img {
@@ -2196,7 +2202,7 @@ figure.clearfix.field-item.even {
 }
 
   #countries ul li {
-    margin-left: 10px;
+    /*margin-left: 10px;*/
     display: inline-block;
   }
 
@@ -17263,6 +17269,7 @@ html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, .secti
   font-size: 100%;
   font: inherit;
   vertical-align: baseline;
+  font-family:sans-serif
 }
 
 article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
@@ -18015,7 +18022,7 @@ table {
     list-style-image: none;
     float: left;
     margin: 0;
-    padding: 0 0 0 18px;
+    padding: 0 0 0 7px;
     text-align: right;
   }
 
@@ -18089,7 +18096,7 @@ table {
 }
 
 #footer .region-footer .footer-container #block-menu-menu-menu-footer .menu li.leaf.first {
-  padding: 0 0 0 3%;
+  padding: 0 ;
 }
 
 @media only screen and (max-width:1024px) {

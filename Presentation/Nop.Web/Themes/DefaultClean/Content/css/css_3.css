@@ -266,7 +266,15 @@ ul.inline, ul.links.inline {
   }
 
 .breadcrumb {
+  padding-bottom: 0;
+  padding-left: 4%;
+  max-width: 81.375rem;
+  margin: 0px auto;
+  width: auto;
   padding-bottom: 0.5em;
+  margin: 0;
+  /*padding-top: 0;*/
+  background-color: #fafafa
 }
 
 ul.primary {

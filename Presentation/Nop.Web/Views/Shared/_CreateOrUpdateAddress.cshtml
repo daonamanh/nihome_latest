@@ -1,149 +1,203 @@
 ﻿@model AddressModel
 
-<input class="address-id" asp-for="Id" type="hidden"/>
-<div class="edit-address">
-    <div class="inputs">
-        <label asp-for="FirstName" asp-postfix=":"></label>
-        <input asp-for="FirstName" />
-        <nop-required />
-        <span asp-validation-for="FirstName"></span>
-    </div>
-    <div class="inputs">
-        <label asp-for="LastName" asp-postfix=":"></label>
-        <input asp-for="LastName" />
-        <nop-required />
-        <span asp-validation-for="LastName"></span>
-    </div>
-    <div class="inputs">
-        <label asp-for="Email" asp-postfix=":"></label>
-        <input asp-for="Email" />
-        <nop-required />
-        <span asp-validation-for="Email"></span>
-    </div>
-    @if (Model.CompanyEnabled)
-    {
-        <div class="inputs">
-            <label asp-for="Company" asp-postfix=":"></label>
-            <input asp-for="Company" />
-            @if (Model.CompanyRequired)
-            {
-                <nop-required />
-            }
-            <span asp-validation-for="Company"></span>
-        </div>
-    }
-    @if (Model.CountryEnabled)
-    {
-        <div class="inputs">
-            <label asp-for="CountryId" asp-postfix=":"></label>
-            <select asp-for="CountryId" asp-items="Model.AvailableCountries"
-                    data-trigger="country-select"
-                    data-url="@(Url.RouteUrl("GetStatesByCountryId"))"
-                    data-stateprovince="#@Html.IdFor(model => model.StateProvinceId)"
-                    data-loading="#states-loading-progress"></select>
-            <nop-required />
-            <span asp-validation-for="CountryId"></span>
-        </div>
-    }
+<input class="address-id" asp-for="Id" type="hidden" />
+<div class="edit-address" style="background-color:white;padding:30px">
+	<!-- First row with First Name and Last Name -->
+	<div class="customer-title" style="margin-bottom:20px;text-align:left">
+		<div style="
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 28px;">
+			Thông tin liên hệ
+		</div><div class="sc-gLEhor bJzKdF" style="    text-align: left;
+    font-weight: 100;
+    word-wrap: break-word;
+    white-space: normal;
+    font-size: 14px;
+    line-height: 20px;
+    color: #4b5563;
+    margin-top: 8px;
+    margin-left: 3px;">
+			Vui lòng điền đầy đủ các trường thông tin để đảm bảo bạn nhận được xác nhận đặt phòng qua email.
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-6">
+			<div class="inputs">
+				<label asp-for="LastName" asp-postfix=":"></label>
+				<input asp-for="LastName" />
+				<nop-required />
+				<span asp-validation-for="LastName"></span>
+			</div>
+		</div>
+		<div class="col-6">
+			<div class="inputs">
+				<label asp-for="FirstName" asp-postfix=":"></label>
+				<input asp-for="FirstName" />
+				<nop-required />
+				<span asp-validation-for="FirstName"></span>
+			</div>
+		</div>
+	</div>
 
-    @if (Model.CountryEnabled && Model.StateProvinceEnabled)
-    {
-        <div class="inputs">
-            <label asp-for="StateProvinceId" asp-postfix=":"></label>
-            <select asp-for="StateProvinceId" asp-items="Model.AvailableStates"
-                    data-trigger="state-select">
-            </select>
-            <span id="states-loading-progress" style="display: none;" class="please-wait">@T("Common.Wait")</span>
-            <span asp-validation-for="StateProvinceId"></span>
-        </div>
-    }
-    @if (Model.CountyEnabled)
-    {
-        <div class="inputs">
-            <label asp-for="County" asp-postfix=":"></label>
-            <input asp-for="County" />
-            @if (Model.CountyRequired)
-            {
-                <nop-required />
-            }
-            <span asp-validation-for="County"></span>
-        </div>
-    }
-    @if (Model.CityEnabled)
-    {
-        <div class="inputs">
-            <label asp-for="City" asp-postfix=":"></label>
-            <input asp-for="City" />
-            @if (Model.CityRequired)
-            {
-                <nop-required />
-            }
-            <span asp-validation-for="City"></span>
-        </div>
-    }
-    @if (Model.StreetAddressEnabled)
-    {
-        <div class="inputs">
-            <label asp-for="Address1" asp-postfix=":"></label>
-            <input asp-for="Address1" />
-            @if (Model.StreetAddressRequired)
-            {
-                <nop-required />
-            }
-            <span asp-validation-for="Address1"></span>
-        </div>
-    }
-    @if (Model.StreetAddress2Enabled)
-    {
-        <div class="inputs">
-            <label asp-for="Address2" asp-postfix=":"></label>
-            <input asp-for="Address2" />
-            @if (Model.StreetAddress2Required)
-            {
-                <nop-required />
-            }
-            <span asp-validation-for="Address2"></span>
-        </div>
-    }
-    @if (Model.ZipPostalCodeEnabled)
-    {
-        <div class="inputs">
-            <label asp-for="ZipPostalCode" asp-postfix=":"></label>
-            <input asp-for="ZipPostalCode" />
-            @if (Model.ZipPostalCodeRequired)
-            {
-                <nop-required />
-            }
-            <span asp-validation-for="ZipPostalCode"></span>
-        </div>
-    }
-    @if (Model.PhoneEnabled)
-    {
-        <div class="inputs">
-            <label asp-for="PhoneNumber" asp-postfix=":"></label>
-            <input asp-for="PhoneNumber" />
-            @if (Model.PhoneRequired)
-            {
-                <nop-required />
-            }
-            <span asp-validation-for="PhoneNumber"></span>
-        </div>
-    }
-    @if (Model.FaxEnabled)
-    {
-        <div class="inputs">
-            <label asp-for="FaxNumber" asp-postfix=":"></label>
-            <input asp-for="FaxNumber" />
-            @if (Model.FaxRequired)
-            {
-                <nop-required />
-            }
-            <span asp-validation-for="FaxNumber"></span>
-        </div>
-    }
-    @if (Model.CustomAddressAttributes.Count > 0)
-    {
-        @await Html.PartialAsync("_AddressAttributes", Model.CustomAddressAttributes)
-    }
-    @await Component.InvokeAsync(typeof(WidgetViewComponent), new { widgetZone = PublicWidgetZones.AddressBottom, additionalData = Model })
+	<!-- Second row with Email and Phone -->
+	<div class="row">
+		<div class="col-6">
+			<div class="inputs">
+				<label asp-for="Email" asp-postfix=":"></label>
+				<input asp-for="Email" />
+				<nop-required />
+				<span asp-validation-for="Email"></span>
+				<label class="input-note" style="text-align:left;font-weight:100;word-wrap:break-word;white-space:normal;font-size:14px;line-height:20px;color:#4b5563;margin-top:8px;margin-left: 8px;">Vui lòng nhập đúng định dạng email. Chúng tôi sẽ gửi xác nhận đến email này.</label>
+			</div>
+		</div>
+		@if (Model.PhoneEnabled)
+		{
+			<div class="col-6">
+				<div class="inputs">
+					<label asp-for="PhoneNumber" asp-postfix=":"></label>
+					<input asp-for="PhoneNumber" />
+					@if (Model.PhoneRequired)
+					{
+						<nop-required />
+					}
+					<span asp-validation-for="PhoneNumber"></span>
+					<label class="input-note" style="text-align:left;font-weight:100;word-wrap:break-word;white-space:normal;font-size:14px;line-height:20px;color:#4b5563;margin-top:8px;margin-left: 8px;">+84961326508 (Nhập số điện thoại của bạn, bắt đầu bằng mã quốc gia +84).</label>
+				</div>
+			</div>
+		}
+	</div>
+
+	@* <!-- Third row with Country and State -->
+	@if (Model.CountryEnabled)
+	{
+		<div class="row">
+			<div class="col-6">
+				<div class="inputs">
+					<label asp-for="CountryId" asp-postfix=":"></label>
+					<select asp-for="CountryId" asp-items="Model.AvailableCountries"
+							data-trigger="country-select"
+							data-url="@(Url.RouteUrl("GetStatesByCountryId"))"
+							data-stateprovince="#@Html.IdFor(model => model.StateProvinceId)"
+							data-loading="#states-loading-progress"></select>
+					<nop-required />
+					<span asp-validation-for="CountryId"></span>
+				</div>
+			</div>
+
+			@if (Model.CountryEnabled && Model.StateProvinceEnabled)
+			{
+				<div class="col-6">
+					<div class="inputs">
+						<label asp-for="StateProvinceId" asp-postfix=":"></label>
+						<select asp-for="StateProvinceId" asp-items="Model.AvailableStates"
+								data-trigger="state-select">
+						</select>
+						<span id="states-loading-progress" style="display: none;" class="please-wait">@T("Common.Wait")</span>
+						<span asp-validation-for="StateProvinceId"></span>
+					</div>
+				</div>
+			}
+		</div>
+	}
+
+	<!-- Fourth row with County and City -->
+	@if (Model.CountyEnabled)
+	{
+		<div class="row">
+			<div class="col-6">
+				<div class="inputs">
+					<label asp-for="County" asp-postfix=":"></label>
+					<input asp-for="County" />
+					@if (Model.CountyRequired)
+					{
+						<nop-required />
+					}
+					<span asp-validation-for="County"></span>
+				</div>
+			</div>
+			@if (Model.CityEnabled)
+			{
+				<div class="col-6">
+					<div class="inputs">
+						<label asp-for="City" asp-postfix=":"></label>
+						<input asp-for="City" />
+						@if (Model.CityRequired)
+						{
+							<nop-required />
+						}
+						<span asp-validation-for="City"></span>
+					</div>
+				</div>
+			}
+		</div>
+	}
+
+	<!-- Fifth row with Address1 and Address2 -->
+	@if (Model.StreetAddressEnabled)
+	{
+		<div class="row">
+			<div class="col-6">
+				<div class="inputs">
+					<label asp-for="Address1" asp-postfix=":"></label>
+					<input asp-for="Address1" />
+					@if (Model.StreetAddressRequired)
+					{
+						<nop-required />
+					}
+					<span asp-validation-for="Address1"></span>
+				</div>
+			</div>
+
+			@if (Model.StreetAddress2Enabled)
+			{
+				<div class="col-6">
+					<div class="inputs">
+						<label asp-for="Address2" asp-postfix=":"></label>
+						<input asp-for="Address2" />
+						@if (Model.StreetAddress2Required)
+						{
+							<nop-required />
+						}
+						<span asp-validation-for="Address2"></span>
+					</div>
+				</div>
+			}
+		</div>
+	}
+
+	<!-- Sixth row with ZipCode and Company -->
+	@if (Model.ZipPostalCodeEnabled)
+	{
+		<div class="row">
+			<div class="col-6">
+				<div class="inputs">
+					<label asp-for="ZipPostalCode" asp-postfix=":"></label>
+					<input asp-for="ZipPostalCode" />
+					@if (Model.ZipPostalCodeRequired)
+					{
+						<nop-required />
+					}
+					<span asp-validation-for="ZipPostalCode"></span>
+				</div>
+			</div>
+			@if (Model.CompanyEnabled)
+			{
+				<div class="col-6">
+					<div class="inputs">
+						<label asp-for="Company" asp-postfix=":"></label>
+						<input asp-for="Company" />
+						@if (Model.CompanyRequired)
+						{
+							<nop-required />
+						}
+						<span asp-validation-for="Company"></span>
+					</div>
+				</div>
+			}
+		</div>
+	} *@
+
+	<!-- Additional fields can follow the same pattern -->
 </div>
+

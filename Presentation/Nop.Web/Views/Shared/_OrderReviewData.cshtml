@@ -1,158 +1,154 @@
 ﻿@model ShoppingCartModel.OrderReviewDataModel
+<style>
+	.info-list {
+		list-style: none;
+		padding: 0;
+	}
+
+		.info-list li {
+			display: flex;
+			justify-content: space-between;
+			margin-bottom: 10px;
+		}
+
+			.info-list li .label {
+				font-weight: bold;
+				color: #555;
+				width: 30%; /* Adjust width as needed */
+			}
+
+			.info-list li .value {
+				color: #333;
+				width: 65%; /* Adjust width as needed */
+			}
+
+</style>
 @if (Model.Display)
 {
-    <div class="order-review-data">
-        <div class="billing-info-wrap">
-            <div class="billing-info">
-                <div class="title">
-                    <strong>@T("Order.BillingAddress")</strong>
-                </div>
-                <ul class="info-list">
-                    <li class="name">
-                        @Model.BillingAddress.FirstName @Model.BillingAddress.LastName
-                    </li>
-                    <li class="email">
-                        @T("Order.Email"): @Model.BillingAddress.Email
-                    </li>
-                    @if (Model.BillingAddress.PhoneEnabled)
-                    {
-                        <li class="phone">
-                            @T("Order.Phone"): @Model.BillingAddress.PhoneNumber
-                        </li>
-                    }
-                    @if (Model.BillingAddress.FaxEnabled)
-                    {
-                        <li class="fax">
-                            @T("Order.Fax"): @Model.BillingAddress.FaxNumber
-                        </li>
-                    }
-                    @if (Model.BillingAddress.CompanyEnabled && !string.IsNullOrEmpty(Model.BillingAddress.Company))
-                    {
-                        <li class="company">
-                            @Model.BillingAddress.Company
-                        </li>
-                    }
-                    @foreach (var item in Model.BillingAddress.AddressFields)
-                    {
-                        <li class=@item.Key.ToString().ToLower()>@item.Value</li>
-                    }
+	<div class="order-review-data">
+		<div class="billing-info-wrap" style="background-color:white;border-radius:8px;width:100%">
+			<div class="billing-info">
+				<div class="title">
+					<strong>@T("Order.BillingAddress")</strong>
+				</div>
+				<ul class="info-list">
+					<!-- First Name and Last Name -->
+					<li class="first-name">
+						<strong>First Name:</strong> @Model.BillingAddress.FirstName
+					</li>
+					<li class="last-name">
+						<strong>Last Name:</strong> @Model.BillingAddress.LastName
+					</li>
 
-                    @if (!string.IsNullOrEmpty(Model.BillingAddress.FormattedCustomAddressAttributes))
-                    {
-                        <li class="custom-attributes-view">
-                            @Html.Raw(Model.BillingAddress.FormattedCustomAddressAttributes)
-                        </li>
-                    }
-                    @if (Model.CustomValues != null)
-                    {
-                        foreach (var item in Model.CustomValues)
-                        {
-                            <li class="custom-value">
-                                <span class="label">
-                                    @item.Key:
-                                </span>
-                                <span class="value">
-                                    @(item.Value != null ? item.Value.ToString() : "")
-                                </span>
-                            </li>
-                        }
-                    }
-                    @await Component.InvokeAsync(typeof(WidgetViewComponent), new { widgetZone = PublicWidgetZones.OrderSummaryBillingAddress, additionalData = Model })
-                </ul>
-            </div>
-            @if (!string.IsNullOrEmpty(Model.PaymentMethod))
-            {
-                <div class="payment-method-info">
-                    <div class="title">
-                        <strong>@T("Order.Payment")</strong>
-                    </div>
-                    <ul class="info-list">
-                        <li class="payment-method">
-                            <span class="label">
-                                @T("Order.Payment.Method"):
-                            </span>
-                            <span class="value">
-                                @Model.PaymentMethod
-                            </span>
-                        </li>
-                        @await Component.InvokeAsync(typeof(WidgetViewComponent), new { widgetZone = PublicWidgetZones.OrderSummaryPaymentMethodInfo, additionalData = Model })
-                    </ul>
-                </div>
-            }
-        </div>
+					<!-- Email -->
+					<li class="email">
+						<strong>Email:</strong> @Model.BillingAddress.Email
+					</li>
 
-        @if (Model.IsShippable)
-        {
-            <div class="shipping-info-wrap">
-                <div class="shipping-info">
-                    <div class="title">
-                        <strong>@(Model.SelectedPickupInStore ? T("Order.PickupAddress") : T("Order.ShippingAddress"))</strong>
-                    </div>
-                    <ul class="info-list">
-                        @if (!Model.SelectedPickupInStore)
-                        {
-                            <li class="name">
-                                @Model.ShippingAddress.FirstName @Model.ShippingAddress.LastName
-                            </li>
-                            <li class="email">
-                                @T("Order.Email"): @Model.ShippingAddress.Email
-                            </li>
-                            if (Model.ShippingAddress.PhoneEnabled)
-                            {
-                                <li class="phone">
-                                    @T("Order.Phone"): @Model.ShippingAddress.PhoneNumber
-                                </li>
-                            }
-                            if (Model.ShippingAddress.FaxEnabled)
-                            {
-                                <li class="fax">
-                                    @T("Order.Fax"): @Model.ShippingAddress.FaxNumber
-                                </li>
-                            }
-                            if (Model.ShippingAddress.CompanyEnabled && !string.IsNullOrEmpty(Model.ShippingAddress.Company))
-                            {
-                                <li class="company">
-                                    @Model.ShippingAddress.Company
-                                </li>
-                            }
-                            @foreach (var item in Model.ShippingAddress.AddressFields)
-                            {
-                                <li class=@item.Key.ToString().ToLower()>@item.Value</li>
-                            }
-                            if (!string.IsNullOrEmpty(Model.ShippingAddress.FormattedCustomAddressAttributes))
-                            {
-                                <li class="custom-attributes-view">
-                                    @Html.Raw(Model.ShippingAddress.FormattedCustomAddressAttributes)
-                                </li>
-                            }
-                            @await Component.InvokeAsync(typeof(WidgetViewComponent), new { widgetZone = PublicWidgetZones.OrderSummaryShippingAddress, additionalData = Model })
-                        }
-                        else
-                        {
-                            @foreach (var item in Model.PickupAddress.AddressFields)
-                            {
-                                <li class=@item.Key.ToString().ToLower()>@item.Value</li>
-                            }
-                        }
-                    </ul>
-                </div>
-                <div class="shipping-method-info">
-                    <div class="title">
-                        <strong>@T("Order.Shipping")</strong>
-                    </div>
-                    <ul class="info-list">
-                        <li class="shipping-method">
-                            <span class="label">
-                                @T("Order.Shipping.Name"):
-                            </span>
-                            <span class="value">
-                                @Model.ShippingMethod
-                            </span>
-                        </li>
-                        @await Component.InvokeAsync(typeof(WidgetViewComponent), new { widgetZone = PublicWidgetZones.OrderSummaryShippingMethodInfo, additionalData = Model })
-                    </ul>
-                </div>
-            </div>
-        }
-    </div>
+					<!-- Phone (Only display if enabled) -->
+					@if (Model.BillingAddress.PhoneEnabled)
+					{
+						<li class="phone">
+							<strong>Phone:</strong> @Model.BillingAddress.PhoneNumber
+						</li>
+					}
+
+					<!-- Commented Out Other Fields -->
+					<!--
+					<li class="fax">
+						<strong>Fax:</strong> @Model.BillingAddress.FaxNumber
+					</li>
+					<li class="company">
+						<strong>Company:</strong> @Model.BillingAddress.Company
+					</li>
+					@foreach (var item in Model.BillingAddress.AddressFields)
+					{
+							<li class=@item.Key.ToString().ToLower()>
+								<strong>@item.Key:</strong> @item.Value
+							</li>
+					}
+
+					@if (!string.IsNullOrEmpty(Model.BillingAddress.FormattedCustomAddressAttributes))
+					{
+							<li class="custom-attributes-view">
+							@Html.Raw(Model.BillingAddress.FormattedCustomAddressAttributes)
+							</li>
+					}
+					-->
+					@if (Model.CustomValues != null)
+					{
+						foreach (var item in Model.CustomValues)
+						{
+							<li class="custom-value">
+								<strong>@item.Key:</strong>
+								<span class="value">
+									@(item.Value != null ? item.Value.ToString() : "")
+								</span>
+							</li>
+						}
+					}
+				</ul>
+			</div>
+		</div>
+
+		@if (Model.IsShippable)
+		{
+			<div class="shipping-info-wrap" style="background-color:white;border-radius:8px">
+				<div class="shipping-info">
+					<div class="title">
+						@* <strong>@(Model.SelectedPickupInStore ? T("Order.PickupAddress") : T("Order.ShippingAddress"))</strong> *@
+						<strong>
+							Thông tin liên hệ(Dự phòng)
+						</strong>
+					</div>
+					<ul class="info-list">
+						<!-- First Name and Last Name for Shipping -->
+						<li class="first-name">
+							<strong>First Name:</strong> @Model.ShippingAddress.FirstName
+						</li>
+						<li class="last-name">
+							<strong>Last Name:</strong> @Model.ShippingAddress.LastName
+						</li>
+
+						<!-- Email for Shipping -->
+						<li class="email">
+							<strong>Email:</strong> @Model.ShippingAddress.Email
+						</li>
+
+						<!-- Phone for Shipping (Only display if enabled) -->
+						@if (Model.ShippingAddress.PhoneEnabled)
+						{
+							<li class="phone">
+								<strong>Phone:</strong> @Model.ShippingAddress.PhoneNumber
+							</li>
+						}
+
+						<!-- Commented Out Other Fields -->
+						<!--
+						<li class="fax">
+							<strong>Fax:</strong> @Model.ShippingAddress.FaxNumber
+						</li>
+						<li class="company">
+							<strong>Company:</strong> @Model.ShippingAddress.Company
+						</li>
+						@foreach (var item in Model.ShippingAddress.AddressFields)
+						{
+								<li class=@item.Key.ToString().ToLower()>
+									<strong>@item.Key:</strong> @item.Value
+								</li>
+						}
+						@if (!string.IsNullOrEmpty(Model.ShippingAddress.FormattedCustomAddressAttributes))
+						{
+								<li class="custom-attributes-view">
+								@Html.Raw(Model.ShippingAddress.FormattedCustomAddressAttributes)
+								</li>
+						}
+						-->
+
+					</ul>
+				</div>
+			</div>
+		}
+	</div>
 }
+

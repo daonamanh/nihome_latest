@@ -255,14 +255,15 @@
                     @T(inclTax ? "ShoppingCart.TaxShipping.InclTax" : "ShoppingCart.TaxShipping.ExclTax", Url.RouteTopicUrl("shippinginfo"))
                 </div>
             }
-            <div class="cart-options">
+            <div class="cart-options" style="display:none">
                 @if (Model.IsEditable)
                 {
                     <div class="common-buttons">
                         <button type="submit" name="updatecart" id="updatecart" class="button-2 update-cart-button" style="display: none;">@T("ShoppingCart.UpdateCart")</button>
 
-                        <button type="submit" name="continueshopping" class="button-2 continue-shopping-button">@T("ShoppingCart.ContinueShopping")</button>
-                        @await Component.InvokeAsync(typeof(ShoppingCartEstimateShippingViewComponent))
+                        @* <button type="submit" name="continueshopping" class="button-2 continue-shopping-button">@T("ShoppingCart.ContinueShopping")</button> *@
+						<button type="submit" name="continueshopping" class="button-2 continue-shopping-button">@T("bookedlist.continuebooking")</button>
+                        @* @await Component.InvokeAsync(typeof(ShoppingCartEstimateShippingViewComponent)) *@
                     </div>
                 }
                 @if (Model.IsEditable)
@@ -271,7 +272,7 @@
                 }
                 @await Component.InvokeAsync(typeof(SelectedCheckoutAttributesViewComponent))
             </div>
-            <div class="cart-footer">
+            <div class="cart-footer" style="justify-content:center">
                 @await Component.InvokeAsync(typeof(WidgetViewComponent), new { widgetZone = PublicWidgetZones.OrderSummaryCartFooter, additionalData = Model })
                 @if (Model.IsEditable)
                 {
@@ -355,9 +356,12 @@
                             }
                             else
                             {
-                                <button type="submit" id="checkout" name="checkout" value="checkout" class="button-1 checkout-button">
+                               @*  <button type="submit" id="checkout" name="checkout" value="checkout" class="button-1 checkout-button">
                                     @T("Checkout.Button")
-                                </button>
+                                </button> *@
+									<button type="submit" id="checkout" name="checkout" value="checkout" class="button-1 checkout-button">
+										@T("common.continue")
+									</button>
                             }
                         }
                     </div>

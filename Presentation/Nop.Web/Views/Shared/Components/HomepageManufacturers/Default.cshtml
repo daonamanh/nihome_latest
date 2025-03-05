@@ -1,0 +1,319 @@
+﻿@model IList<ManufacturerModel>
+
+@using Nop.Core.Domain.Catalog
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<style>
+
+
+	.building-homepage .item-box {
+		padding: 15px;
+		border: 1px solid #ddd;
+		border-radius: 8px;
+		background: white;
+		text-align: center;
+		transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+		position: relative;
+	}
+
+		/* Hover Effect */
+		.building-homepage .item-box:hover {
+			transform: translateY(-5px);
+			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+			background: #f9f9f9;
+		}
+
+			.building-homepage .item-box:hover .product-title {
+				color: #007bff;
+				font-weight: bold;
+			}
+</style>
+<style>
+	.child {
+		display: flex;
+		gap: 15px;
+		justify-content: center;
+		margin-left: 23%;
+		margin-top: 2%;
+		margin-bottom: 5%
+	}
+	/* Set the color for the clicked li elements */
+	li.selected {
+		color: #e24d14;
+	}
+	/* Add pointer cursor to li elements */
+	.child li {
+		cursor: pointer;
+		font-size: 20px;
+		font-weight: 400;
+	}
+
+	* {
+		box-sizing: border-box;
+		margin: 0;
+		padding: 0;
+	}
+
+	.nav-tabs {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		border-radius: 30px;
+		padding: 3px;
+		width: fit-content;
+		position: relative;
+	}
+
+	.nav-item {
+		/* flex: 1; */
+		text-align: center;
+	}
+
+	.nav-link {
+		display: block;
+		padding: 8px 15px;
+		font-size: 16px;
+		font-family: Roboto, sans-serif;
+		color: #333;
+		background: transparent;
+		border: none;
+		border-radius: 30px;
+		cursor: pointer;
+		transition: all 0.3s;
+		position: relative;
+		z-index: 1;
+	}
+
+		.nav-link.active {
+			color: white !important;
+			background: black !important;
+		}
+
+	.active-tab {
+		position: absolute;
+		background: #007bff;
+		height: 100%;
+		width: 33.3%;
+		border-radius: 30px;
+		transition: left 0.3s;
+		top: 0;
+		left: 0;
+		z-index: 0;
+	}
+</style>
+<script>
+	document.querySelectorAll('#myTab .nav-link').forEach(tab => {
+		tab.addEventListener('click', function () {
+			document.querySelectorAll('#myTab .nav-link').forEach(t => {
+				t.setAttribute('aria-selected', 'false');
+				t.classList.remove('active');
+			});
+			this.setAttribute('aria-selected', 'true');
+			this.classList.add('active');
+		});
+	});
+</script>
+<script>
+	// Add an event listener to all li elements within collapsible child lists
+	document.querySelectorAll('.child li').forEach(function (item) {
+		item.addEventListener('click', function () {
+			// Remove the 'selected' class from all li elements
+			document.querySelectorAll('.child li').forEach(function (li) {
+				li.classList.remove('selected');
+			});
+
+			// Add the 'selected' class to the clicked li element
+			item.classList.add('selected');
+		});
+	});
+
+</script>
+<div class="page manufacturer-list-page" style="margin-left:0!important">
+@* 	<div class="page-title">
+		<h1>@T("Manufacturers.List")</h1>
+	</div> *@
+	<ul class="nav nav-tabs citybar" id="myTab" role="tablist" style="border:1px solid #ddd;margin-bottom:2%; font-family: Roboto, sans-serif; font-size:30px">
+		<li class="nav-item" role="presentation">
+			<button class="nav-link active" id="home-tab" data-bs-toggle="collapse" data-bs-target="#home-child" type="button" role="tab" aria-controls="home" aria-selected="true">TPHCM</button>
+		</li>
+		<li class="nav-item" role="presentation">
+			<button class="nav-link" id="profile-tab" data-bs-toggle="collapse" data-bs-target="#profile-child" type="button" role="tab" aria-controls="profile" aria-selected="false">Hà Nội</button>
+		</li>
+		<li class="nav-item" role="presentation">
+			<button class="nav-link" id="contact-tab" data-bs-toggle="collapse" data-bs-target="#contact-child" type="button" role="tab" aria-controls="contact" aria-selected="false">Đà Nẵng</button>
+		</li>
+	</ul>
+
+	<!-- Collapsible child lists with multi-collapse -->
+	<ul class="collapse  child" id="home-child" style="margin-left:3%" data-bs-parent="#myTab">
+		<li>Tất cả</li>
+		<li>Quận 1</li>
+		<li>Quận 2</li>
+		<li>Quận 3</li>
+		<li>Tân Bình</li>
+		<li>Bình Thạnh</li>
+		<li>Phú Nhuận</li>
+	</ul>
+	<ul class="collapse  child" id="profile-child" style="margin-left:3%" data-bs-parent="#myTab">
+		<li>Tất cả</li>
+		<li>Đống Đa</li>
+		<li>Hoàng Mai</li>
+		<li>Ba Đình</li>
+		<li>Hai Bà Trưng</li>
+		<li>Hoàn Kiếm</li>
+		<li>Long Biên</li>
+	</ul>
+	<ul class="collapse  child" id="contact-child" style="margin-left:3%" data-bs-parent="#myTab">
+		<li>Tất cả</li>
+		<li>Liên Chiểu</li>
+		<li>Thanh Khê</li>
+		<li>Hải Châu</li>
+		<li>Sơn Trà</li>
+		<li>Cẩm Lệ</li>
+		<li>Hòa Vang</li>
+	</ul>
+@*	<ul class="nav nav-tabs citybar" id="myTab" role="tablist" style="border:1px solid #ddd;margin-bottom:2%; font-family: Roboto, sans-serif; font-size:30px; margin-left:38%">
+		<li class="nav-item" role="presentation">
+			<button class="nav-link active" id="home-tab" data-bs-toggle="collapse" data-bs-target="#home-child" type="button" role="tab" aria-controls="home" aria-selected="true">TPHCM</button>
+		</li>
+		<li class="nav-item" role="presentation">
+			<button class="nav-link" id="profile-tab" data-bs-toggle="collapse" data-bs-target="#profile-child" type="button" role="tab" aria-controls="profile" aria-selected="false">Hà Nội</button>
+		</li>
+		<li class="nav-item" role="presentation">
+			<button class="nav-link" id="contact-tab" data-bs-toggle="collapse" data-bs-target="#contact-child" type="button" role="tab" aria-controls="contact" aria-selected="false">Đà Nẵng</button>
+		</li>
+	</ul>
+
+	<!-- Collapsible child lists with multi-collapse -->
+	<ul class="collapse child" id="home-child" style="margin-left:3%" data-bs-parent="#myTab">
+		<li>Tất cả</li>
+		@foreach (var district in Model.AvailableDistricts[1])
+		{
+			<li>@district.Text</li>
+		}
+	</ul>
+	<ul class="collapse child" id="profile-child" style="margin-left:3%" data-bs-parent="#myTab">
+		<li>Tất cả</li>
+		@foreach (var district in Model.AvailableDistricts[2])
+		{
+			<li>@district.Text</li>
+		}
+	</ul>
+	<ul class="collapse child" id="contact-child" style="margin-left:3%" data-bs-parent="#myTab">
+		<li>Tất cả</li>
+		@foreach (var district in Model.AvailableDistricts[3])
+		{
+			<li>@district.Text</li>
+		}
+	</ul>
+ *@
+
+	 <div class="page-body">
+		<div class="manufacturer-grid">
+			<div class="item-grid">
+				@foreach (var item in Model)
+				{
+					<div class="item-box">
+						<div class="manufacturer-item" style="border: 1px solid #ddd;border-radius: 8px;background-color:white">
+							<div class="manufacturer-content">
+								<div class="picture" style="height:max-content;border-top-left-radius: 8px;border-bottom-left-radius: 8px;">
+									<a href="@(Url.RouteUrl<Manufacturer>(new { SeName = item.SeName }))"
+									   title="@item.PictureModel.Title">
+										<img style="border-top-left-radius: 8px;border-bottom-left-radius: 8px;" alt="@item.PictureModel.AlternateText"
+											 src="@item.PictureModel.ImageUrl"
+											 title="@item.PictureModel.Title" />
+									</a>
+								</div>
+
+								<div class="info" style="text-align:left;padding-left:10px">
+									<h2 class="title" style="text-align:left;margin:0;color:black;font-weight:bold;text-decoration:none">
+										<a href="@(Url.RouteUrl<Manufacturer>(new { SeName = item.SeName }))"
+										   title="@item.PictureModel.Title" style="text-align:left;margin:0;color:black;font-weight:bold;text-decoration:none">
+											@item.Name
+										</a>
+									</h2>
+									<div class="sc-kHOZwM bnRFYD"><div data-tip="true" data-for="129 - 131 Tôn Thất Đạm, P. Bến Nghé, Q.1, HCM" class="text-truncate undefined">@T("addressex")</div></div>
+
+									<div class="left-icon" style="    width: 100%;   margin-top: 6px;    height: auto;    margin-bottom: 15px;">
+										<ul style="display: flex; flex-wrap: wrap; gap: 20px; list-style-type: none; padding: 0; margin: 0;">
+											<li style="width: 45%; display: flex; align-items: center;">
+												<a href="https://www.facebook.com/niconvn" target="_blank">
+													<img src="/themes/defaultclean/content/images/image_2499498064_fc417a11b1.jpg" alt="facebook icon" style="width: 23px;">
+												</a>
+												<span class="sc-dYPfWK ZXXWb" style="margin-left: 10px;">@T("cityriver")</span>
+											</li>
+
+											<li style="width: 45%; display: flex; align-items: center;">
+												<a href="https://plus.google.com/" target="_blank">
+													<img src="/themes/defaultclean/content/images/image_1278336190_182ee67464.jpg" alt="google icon" style="width: 23px;">
+												</a>
+												<span class="sc-dYPfWK ZXXWb" style="margin-left: 10px;">@T("freelaundry")</span>
+											</li>
+
+											<li style="width: 45%; display: flex; align-items: center;">
+												<a href="https://www.youtube.com/" target="_blank">
+													<img src="/themes/defaultclean/content/images/image_160596215_5eae8d6c21.jpg" alt="youtube icon" style="width: 23px;">
+												</a>
+												<span class="sc-dYPfWK ZXXWb" style="margin-left: 10px;">@T("freegym")</span>
+											</li>
+
+											<li style="width: 45%; display: flex; align-items: center;">
+												<a title="login" href="/login">
+													<img src="/themes/defaultclean/content/images/image_3873386263_59c97ca572.jpg" alt="login icon" style="width: 23px;">
+												</a>
+												<span class="sc-dYPfWK ZXXWb" style="margin-left: 10px;">
+													@T("comfortableroom")
+												</span>
+											</li>
+										</ul>
+
+									</div>
+									<div class="description11" >
+										@Html.Raw(item.Description)
+									</div>
+								</div>
+								<div class="book" >
+									<div class="item-info-all">
+									<div class="item-info">
+										<span class="sc-bXTejn kAEujO">@T("from")</span>
+										<div class="sc-brSvTw cDrvXt" style="color:#e24d14">@item.Price.ToString("C0")</div>
+										<span class="sc-gIDmLj eYYHiZ">@T("vnd/month")</span>
+										<div class="sc-fHeRUh kzgbTJ">@T("includetaxfee")</div>
+									</div>
+										<div class="sc-dkYRCH jlZaBr mt-4">
+											<button style="background-color: #e24d14 !important; border:0; height:auto;width:auto;border-radius:28px"
+													class="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root sc-leSONj ehxPr is-circle sc-dMOJrz jlPWpC filter-header__apply-button primary-btn ml-3 css-vfuakh"
+													tabindex="0"
+													type="button"
+													onclick="window.location.href='@(Url.RouteUrl<Manufacturer>(new { SeName = item.SeName }))'; return false;">
+												<span class=" d-lg-block" style="font-family:sans-serif">
+													@T("chooseroom")
+												</span>
+											</button>
+
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				}
+			</div>
+		</div>
+	</div> 
+</div>
+<script>
+	document.querySelectorAll('.nav-link').forEach(function (button) {
+		button.addEventListener('click', function () {
+			// Collapse all open child lists
+			document.querySelectorAll('.child').forEach(function (child) {
+				if (child !== document.querySelector(button.dataset.bsTarget)) {
+					child.classList.remove('show');
+				}
+			});
+		});
+	});
+</script>
+
+
+

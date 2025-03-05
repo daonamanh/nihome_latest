@@ -71,7 +71,7 @@ public partial record ProductModel : BaseNopEntityModel,
     #endregion
 
     #region Properties
-
+    public string Address { get; set; }
     public int Adult { get; set; }
     public int Children { get; set; }
     public int Toddler { get; set; }

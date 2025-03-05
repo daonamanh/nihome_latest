@@ -8081,7 +8081,7 @@ label, label + * {
 
   .search-box {
     display: table-cell;
-    text-align: left;
+    /*text-align: left;*/
     vertical-align: middle;
   }
 

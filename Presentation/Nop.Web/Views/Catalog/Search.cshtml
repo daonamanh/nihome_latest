@@ -26,7 +26,11 @@
 @section CatalogFilters {
     @await Html.PartialAsync("_CatalogFilters", Model.CatalogProductsModel)
 }
-
+<style>
+	.detail{
+		width:59%
+	}
+</style>
 <div class="page search-page">
     <div class="page-title">
         <h1>@T("Search")</h1>
@@ -34,7 +38,7 @@
     <div class="page-body">
         <div class="search-input">
             <form asp-route="ProductSearch" method="get">
-                <div class="fieldset">
+                <div class="fieldset1">
                     <div class="form-fields">
                         <div class="basic-search">
 						

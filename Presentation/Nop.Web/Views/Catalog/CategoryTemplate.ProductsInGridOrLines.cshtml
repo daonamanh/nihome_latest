@@ -35,8 +35,9 @@
         <div class="breadcrumb">
             <ul>
                 <li>
-                    <a href="@Url.RouteUrl("Homepage")" title="@T("Categories.Breadcrumb.Top")">@T("Categories.Breadcrumb.Top")</a>
-                    <span class="delimiter">@breadcrumbDelimiter</span>
+                    <a style="font-weight:bold" href="@Url.RouteUrl("Homepage")" title="@T("Categories.Breadcrumb.Top")">@T("Categories.Breadcrumb.Top")</a>
+                    @* <span class="delimiter">@breadcrumbDelimiter</span> *@
+					<img src="/themes/defaultclean/content/images/breadcrumb-separate.svg" class="sc-jNHqnW jxIsDt">
                 </li>
                 @{ int position = 1; }
                 @foreach (var cat in Model.CategoryBreadcrumb)
@@ -45,7 +46,7 @@
                     <li>
                         @if (isLastCategory)
                         {
-                            <strong class="current-item">@cat.Name</strong>
+							<strong style="font-weight:bold" class="current-item">@cat.Name</strong>
                             <span id="@(Url.RouteUrl<Category>(new { SeName = cat.SeName }))"></span>
                         }
                         else
@@ -53,7 +54,8 @@
                             <a href="@(Url.RouteUrl<Category>(new { SeName = cat.SeName }))" title="@cat.Name">
                                 <span>@cat.Name</span>
                             </a>
-                            <span class="delimiter">@breadcrumbDelimiter</span>
+                            @* <span class="delimiter">@breadcrumbDelimiter</span> *@
+							<img src="/themes/defaultclean/content/images/breadcrumb-separate.svg" class="sc-jNHqnW jxIsDt">
                         }
                     </li>
                     position++;

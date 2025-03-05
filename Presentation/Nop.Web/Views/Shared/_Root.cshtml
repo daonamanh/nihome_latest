@@ -1,10 +1,14 @@
 ﻿@{
     Layout = "_Root.Head";
 }
+<head>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+
+</head>
 @await Component.InvokeAsync(typeof(WidgetViewComponent), new { widgetZone = PublicWidgetZones.BodyStartHtmlTagAfter })
 @{ await Html.RenderPartialAsync("_Notifications"); }
 @{ await Html.RenderPartialAsync("_JavaScriptDisabledWarning"); }
-<div class="master-wrapper-page">
+<div class="master-wrapper-page" style="background-color:#fafafa">
     @await Component.InvokeAsync(typeof(AdminHeaderLinksViewComponent))
     @{ await Html.RenderPartialAsync("_Header"); }
     <script asp-location="Footer">
@@ -20,7 +24,10 @@
 		gtag('js', new Date());
 		gtag('config', 'G-DFD1NPCVYH');
 	</script>
-	<div class="header-menu sticky-header" style="padding-left:4.3%">
+	<div class="header-menu sticky-header" style="    z-index: 1;
+    max-width: 81.375rem;
+    margin: 0px auto;
+    width: auto;">
 		@* <div class="header-logo cursor-pointer">
 			<img layout="fill" src="/Themes/DefaultClean/Content/images/logo1.png" alt="logo" title="logo" placeholder="blur"
 				 href="index.html" />
@@ -36,7 +43,7 @@
 			</a> *@
 		</ul>
     </div>
-	<div class="master-wrapper-content" id="main" role="main" style=" margin-bottom:-7%">
+	<div class="master-wrapper-content" id="main" role="main" style=" margin-bottom:-7%;  max-width: 81.375rem;margin: 0px auto;width:auto;">
         @await Component.InvokeAsync(typeof(WidgetViewComponent), new { widgetZone = PublicWidgetZones.ContentBefore })
 
         @if (IsSectionDefined("Breadcrumb"))

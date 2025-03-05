@@ -10,6 +10,10 @@
     //page class
     NopHtml.AppendPageCssClassParts("html-news-list-page");
 }
+@{
+	ViewBag.DisableSideBar = true;
+}
+<div style="width:100%!important">
 <div class="page news-list-page">
     <div class="page-title">
         <a href="@Url.RouteUrl("NewsRSS", new { languageId = Model.WorkingLanguageId })" class="link-rss" title="@T("News.RSS.Hint")">@T("News.RSS")</a>
@@ -28,7 +32,7 @@
                     <div class="news-body">
                         @Html.Raw(item.Short)
                     </div>
-                    <div class="buttons">
+                    <div class="buttons"style="background-color:#e24d14;border-radius:23px">
                         <a href="@(Url.RouteUrl<NewsItem>(new { SeName = item.SeName }))" class="read-more">@T("News.MoreInfo")</a>
                     </div>
                     @await Component.InvokeAsync(typeof(WidgetViewComponent), new { widgetZone = PublicWidgetZones.NewsListPageInsideItem, additionalData = item })
@@ -46,4 +50,5 @@
         }
         @await Component.InvokeAsync(typeof(WidgetViewComponent), new { widgetZone = PublicWidgetZones.NewsListPageAfterItems, additionalData = Model })
     </div>
+</div>
 </div>

@@ -8,7 +8,7 @@
     NopHtml.AppendPageCssClassParts("html-checkout-page");
     NopHtml.AppendPageCssClassParts("html-order-completed-page");
 }
-<div class="page checkout-page order-completed-page">
+<div class="page checkout-page order-completed-page" >
     @if (!Model.OnePageCheckoutEnabled)
     {
         @await Component.InvokeAsync(typeof(CheckoutProgressViewComponent),  new { step = CheckoutProgressStep.Complete })
@@ -18,11 +18,11 @@
     </div>
     <div class="page-body checkout-data">
         @await Component.InvokeAsync(typeof(WidgetViewComponent), new { widgetZone = PublicWidgetZones.CheckoutCompletedTop, additionalData = Model })
-        <div class="section order-completed">
-            <div class="title">
+        <div class="section order-completed" style="text-align:center">
+			<div class="title" style="text-align:center">
                 <strong>@T("Checkout.YourOrderHasBeenSuccessfullyProcessed")</strong>
             </div>
-            <div class="details">
+			<div class="details" style="margin-left: 20%;">
                 <div class="order-number">
                     <strong>@T("Checkout.OrderNumber"): @Model.CustomOrderNumber</strong>
                 </div>

@@ -12,6 +12,7 @@ using Nop.Web.Areas.Admin.Models.Catalog;
 using Nop.Web.Framework.Extensions;
 using Nop.Web.Framework.Factories;
 using Nop.Web.Framework.Models.Extensions;
+using Nop.Web.Models.Media;
 
 namespace Nop.Web.Areas.Admin.Factories;
 
@@ -197,10 +198,8 @@ public partial class ManufacturerModelFactory : IManufacturerModelFactory
                 model = manufacturer.ToModel<ManufacturerModel>();
                 model.SeName = await _urlRecordService.GetSeNameAsync(manufacturer, 0, true, false);
             }
-
             //prepare nested search model
             PrepareManufacturerProductSearchModel(model.ManufacturerProductSearchModel, manufacturer);
-
             //define localized model configuration action
             localizedModelConfiguration = async (locale, languageId) =>
             {

@@ -1,5 +1,4 @@
 ﻿@model ManufacturerModel
-
 <div class="card-body">
     @(await Html.LocalizedEditorAsync<ManufacturerModel, ManufacturerLocalizedModel>("manufacturer-name-localized",
     @<div>
@@ -54,4 +53,74 @@
             <span asp-validation-for="PictureId"></span>
         </div>
     </div>
+	<div class="form-group">
+		@Html.LabelFor(model => model.Price, new { @class = "control-label col-md-3" })
+		<div class="col-md-9">
+			@Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control" } })
+			@Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+		</div>
+	</div>
+	@* <div class="form-group">
+		<label for="City">City</label>
+		@Html.DropDownListFor(model => model.City, Model.AvailableCities, "Select a City", new { @class = "form-control" })
+	</div> *@
+
+	<div class="form-group">
+		<label asp-for="CityId" class="control-label">City</label>
+		<select asp-for="CityId" asp-items="Model.AvailableCities" class="form-control">
+			<option value="">-- Select City --</option>
+		</select>
+	</div>
+	<div class="form-group">
+		<label asp-for="DistrictId" class="control-label">District</label>
+	<select asp-for="DistrictId" class="form-control" id="DistrictId">
+		@if (Model.AvailableDistricts != null && Model.AvailableDistricts.ContainsKey(Model.CityId ?? 0))
+		{
+			foreach (var district in Model.AvailableDistricts[Model.CityId ?? 0])
+			{
+				if (district.Value == Model.DistrictId.ToString())
+				{
+					<option value="@district.Value" selected>@district.Text</option>
+				}
+				else
+				{
+					<option value="@district.Value">@district.Text</option>
+				}
+			}
+		}
+	</select>
+	</div>
+
+	@* <div class="form-group">
+		<label asp-for="CityId" class="control-label">City</label>
+		<select asp-for="CityId"  class="form-control">
+			<option value="1">Tphcm</option>
+			<option value="2">Hanoi</option>
+			<option value="3">Danang</option>
+
+		</select>
+	</div> *@
+
+
 </div>
+<script>
+	document.getElementById("CityId").addEventListener("change", function () {
+		const cityId = this.value;
+		const districts = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.AvailableDistricts));
+		const districtDropdown = document.getElementById("DistrictId");
+
+		// Clear current options
+		districtDropdown.innerHTML = "";
+
+		// Add new options based on selected city
+		if (districts[cityId]) {
+			districts[cityId].forEach(district => {
+				const option = document.createElement("option");
+				option.value = district.Value;
+				option.text = district.Text;
+				districtDropdown.add(option);
+			});
+		}
+	});
+</script>
+

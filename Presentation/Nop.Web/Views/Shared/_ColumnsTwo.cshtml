@@ -28,7 +28,8 @@
 }
 
 @await RenderSectionAsync("Breadcrumb", false)
-
+@if (ViewBag.DisableSideBar == null || ViewBag.DisableSideBar == false)
+{
 <div class="side-2">
     @if (IsSectionDefined("left"))
     {
@@ -50,8 +51,10 @@
         @await Component.InvokeAsync(typeof(WidgetViewComponent), new { widgetZone = PublicWidgetZones.LeftSideColumnAfter })
     }
 </div>
-<div class="center-2">
-    @await Component.InvokeAsync(typeof(WidgetViewComponent), new { widgetZone = PublicWidgetZones.MainColumnBefore })
-    @RenderBody()
-    @await Component.InvokeAsync(typeof(WidgetViewComponent), new { widgetZone = PublicWidgetZones.MainColumnAfter })
+}
+<div class="center-2 @(ViewBag.DisableSideBar == true ? "full-width" : "")">
+	@await Component.InvokeAsync(typeof(WidgetViewComponent), new { widgetZone = PublicWidgetZones.MainColumnBefore })
+	@RenderBody()
+	@await Component.InvokeAsync(typeof(WidgetViewComponent), new { widgetZone = PublicWidgetZones.MainColumnAfter })
 </div>
+

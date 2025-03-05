@@ -12,29 +12,100 @@
 }
 <div class="page manufacturer-list-page">
     <div class="page-title">
-        <h1>@T("Manufacturers.List")</h1>
+         <h1>@T("Manufacturers.List")</h1> 
+		@* <h1>Danh sách các dự án</h1> *@
     </div>
     <div class="page-body">
-        <div class="manufacturer-grid">
-            <div class="item-grid">
-                @foreach (var item in Model)
-                {
-                    <div class="item-box">
-                        <div class="manufacturer-item">
-                            <h2 class="title">
-                                <a href="@(Url.RouteUrl<Manufacturer>(new { SeName = item.SeName }))" title="@item.PictureModel.Title">
-                                    @item.Name
-                                </a>
-                            </h2>
-                            <div class="picture">
-                                <a href="@(Url.RouteUrl<Manufacturer>(new { SeName = item.SeName }))" title="@item.PictureModel.Title">
-                                    <img alt="@item.PictureModel.AlternateText" src="@item.PictureModel.ImageUrl" title="@item.PictureModel.Title" />
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                }
-            </div>
-        </div>
+		<div class="manufacturer-grid">
+			<div class="item-grid">
+				@foreach (var item in Model)
+				{
+					<div class="item-box">
+						<div class="manufacturer-item" style="border: 1px solid #ddd;border-radius: 8px;background-color:white">
+							<div class="manufacturer-content" >
+								<div class="picture" style="height:max-content;border-top-left-radius: 8px;border-bottom-left-radius: 8px">
+									<a href="@(Url.RouteUrl<Manufacturer>(new { SeName = item.SeName }))"
+									   title="@item.PictureModel.Title">
+										<img style="border-top-left-radius: 8px;border-bottom-left-radius: 8px;" alt="@item.PictureModel.AlternateText"
+											 src="@item.PictureModel.ImageUrl"
+											 title="@item.PictureModel.Title" />
+									</a>
+								</div>
+
+								<div class="info" style="text-align:left;padding-left:10px">
+									<h2 class="title" style="text-align:left;margin:0;color:black;font-weight:bold;text-decoration:none">
+										<a href="@(Url.RouteUrl<Manufacturer>(new { SeName = item.SeName }))"
+										   title="@item.PictureModel.Title" style="text-align:left;margin:0;color:black;font-weight:bold;text-decoration:none">
+											@item.Name
+										</a>
+									</h2>
+									<div class="sc-kHOZwM bnRFYD"><div data-tip="true" data-for="129 - 131 Tôn Thất Đạm, P. Bến Nghé, Q.1, HCM" class="text-truncate undefined">@T("addressex")</div></div>
+
+									<div class="left-icon" style="    width: 100%;   margin-top: 6px;    height: auto;    margin-bottom: 15px;">
+										<ul style="display: flex; flex-wrap: wrap; gap: 20px; list-style-type: none; padding: 0; margin: 0;">
+											<li style="width: 45%; display: flex; align-items: center;">
+												<a href="https://www.facebook.com/niconvn" target="_blank">
+													<img src="/themes/defaultclean/content/images/image_2499498064_fc417a11b1.jpg" alt="facebook icon" style="width: 23px;">
+												</a>
+												<span class="sc-dYPfWK ZXXWb" style="margin-left: 10px;">@T("cityriver")</span>
+											</li>
+
+											<li style="width: 45%; display: flex; align-items: center;">
+												<a href="https://plus.google.com/" target="_blank">
+													<img src="/themes/defaultclean/content/images/image_1278336190_182ee67464.jpg" alt="google icon" style="width: 23px;">
+												</a>
+												<span class="sc-dYPfWK ZXXWb" style="margin-left: 10px;">@T("freelaundry")</span>
+											</li>
+
+											<li style="width: 45%; display: flex; align-items: center;">
+												<a href="https://www.youtube.com/" target="_blank">
+													<img src="/themes/defaultclean/content/images/image_160596215_5eae8d6c21.jpg" alt="youtube icon" style="width: 23px;">
+												</a>
+												<span class="sc-dYPfWK ZXXWb" style="margin-left: 10px;">@T("freegym")</span>
+											</li>
+
+											<li style="width: 45%; display: flex; align-items: center;">
+												<a title="login" href="/login">
+													<img src="/themes/defaultclean/content/images/image_3873386263_59c97ca572.jpg" alt="login icon" style="width: 23px;">
+												</a>
+												<span class="sc-dYPfWK ZXXWb" style="margin-left: 10px;">
+													@T("comfortableroom")
+												</span>
+											</li>
+										</ul>
+
+									</div>
+									<div class="description11">
+										@Html.Raw(item.Description)
+									</div>
+								</div>
+								<div class="book">
+									<div class="item-info-all">
+										<div class="item-info">
+											<span class="sc-bXTejn kAEujO">@T("from")</span>
+											<div class="sc-brSvTw cDrvXt" style="color:#e24d14">@item.Price.ToString("C0")</div>
+											<span class="sc-gIDmLj eYYHiZ">@T("vnd/month")</span>
+											<div class="sc-fHeRUh kzgbTJ">@T("includetaxfee")</div>
+										</div>
+										<div class="sc-dkYRCH jlZaBr mt-4">
+											<button style="background-color: #e24d14 !important; border:0; height:auto;width:auto;border-radius:28px"
+													class="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root sc-leSONj ehxPr is-circle sc-dMOJrz jlPWpC filter-header__apply-button primary-btn ml-3 css-vfuakh"
+													tabindex="0"
+													type="button"
+													onclick="window.location.href='@(Url.RouteUrl<Manufacturer>(new { SeName = item.SeName }))'; return false;">
+												<span class=" d-lg-block" style="font-family:sans-serif">
+													@T("chooseroom")
+												</span>
+											</button>
+
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				}
+			</div>
+		</div>
     </div>
 </div>

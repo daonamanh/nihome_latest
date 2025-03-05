@@ -31,7 +31,7 @@
                         }
                         <div class="product">
                             <div class="name">
-                                <a href="@(Url.RouteUrl<Product>(new { SeName = item.ProductSeName }))">@item.ProductName</a>
+                                <a style="color:#e24d14" href="@(Url.RouteUrl<Product>(new { SeName = item.ProductSeName }))">@item.ProductName</a>
                             </div>
                             @if (!string.IsNullOrEmpty(item.AttributeInfo))
                             {
@@ -62,7 +62,7 @@
                     {
                         checkoutUrl = Url.RouteUrl("Checkout");
                     }
-                    <button type="button" class="button-1 checkout-button" onclick="setLocation('@checkoutUrl')">@T("Checkout.Button")</button>
+					<button style="color:#e24d14" type="button" class="button-1 checkout-button" onclick="setLocation('@checkoutUrl')">@T("Checkout.Button")</button>
                 }
             </div>
         }

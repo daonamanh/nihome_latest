@@ -1,6 +1,6 @@
 ﻿
 
-<div class="header">
+<div class="header" style="    width: 100%;background-color: white!important;max-width: 81.375rem;margin: 0px auto;width:auto;">
 	<a class="skip" href="#main">@T("Header.SkipNavigation.Text")</a>
 	@await Component.InvokeAsync(typeof(WidgetViewComponent), new { widgetZone = PublicWidgetZones.HeaderBefore })
 
@@ -16,23 +16,22 @@
 			@await Component.InvokeAsync(typeof(FlyoutShoppingCartViewComponent))
 		</div>
 	</div> *@ 
-
-	 <div style="display:flex;background: #f8f7f7;margin-left:-5%">
-		<div class="left-icon" style="width:60%;margin-top:6px">
-			<ul style="float:left">
+	 <div class="header-content">
+		<div class="left-icon" style="margin-top:6px;margin-left:1%">
+			<ul class="left-icon-ul">
 				<li class="fb">
-					<a href="https://www.facebook.com/niconvn" target="_blank">
-						<img src="/themes/defaultclean/content/images/new-fb.png" alt="facebook icon" />
+					<a href="@Url.RouteUrl("Homepage")" target="_blank">
+						<img src="/themes/defaultclean/content/images/new-fb.png" alt="facebook icon" class="header-image"/>
 					</a>
 				</li>
 				<li class="google">
-					<a href="https://plus.google.com/" target="_blank">
-						<img src="/themes/defaultclean/content/images/new-gplus.png" alt="google icon" />
+					<a href="@Url.RouteUrl("Homepage")" target="_blank">
+						<img src="/themes/defaultclean/content/images/new-gplus.png" alt="google icon" class="header-image" />
 					</a>
 				</li>
 				<li class="youtube">
-					<a href="https://www.youtube.com/" target="_blank">
-						<img src="/themes/defaultclean/content/images/utube.png" alt="youtube icon" />
+					<a href="@Url.RouteUrl("Homepage")" target="_blank">
+						<img src="/themes/defaultclean/content/images/utube.png" alt="youtube icon" class="header-image" />
 					</a>
 				</li>
 				<li class="loginuser">
@@ -40,27 +39,29 @@
 						<img src="/themes/defaultclean/content/images/user-icon.png" alt="login icon" style="width: 23px;height: 21.4px;" />
 					</a>
 				</li>
-				<li class="iconmori">
-					<a onclick="window.open('https://www.mori-group.jp')" target="_blank">
-						<img src="/themes/defaultclean/content/images/z5815621211914_19205f3b0285e45489744c73daa3c379.jpg" alt="mori icon" style="width:72px;height:27px" />
-					</a>
+				<li class="fb">
+					@await Component.InvokeAsync(typeof(HeaderLinksViewComponent))
+					@await Component.InvokeAsync(typeof(FlyoutShoppingCartViewComponent))
 				</li>
+				@* <li class="iconmori">
+					<a onclick="window.open('https://www.mori-group.jp')" target="_blank">
+						<img src="/themes/defaultclean/content/images/z5815621211914_19205f3b0285e45489744c73daa3c379.jpg" alt="mori icon" style="width: 92px;height: 18px;margin-top: 2px;" />
+					</a>
+				</li> *@
 			</ul>
 		</div>
-		<div style="width:40%">
-			<div class="menu-container" style="display: flex; align-items: center; width: 100%;padding-left:23%">
+		<div class="right-icon">
+			<div class="menu-container" style="display: flex; align-items: center; width: 100%;padding-left:11%;height:40px">
 				<!-- Block Menu -->
-				<nav class="navbar navbar-expand-lg navbar-light bg-light">
+				<nav class="navbar navbar-expand-lg navbar-light bg-light" style="height:40px">
 					<div class="container-fluid">
-						<div class="collapse navbar-collapse" id="navbarNav">
-							<ul class="navbar-nav">
+						<div  id="navbarNav">
+							<ul class="navbar-nav" style="font-family:Roboto, sans-serif;">
 								<li class="nav-item">
-									<a class="nav-link" href="#" style="color: red; text-decoration: none; font-weight: bold;">News</a>
+									<a class="nav-link" href="#" style="color: red; text-decoration: none; font-weight: bold;width:max-content">@T("Booking")</a>
 								</li>
 								<li class="nav-item dropdown">
-									<a class="nav-link" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: red; text-decoration: none; font-weight: bold;">
-										Services
-									</a>
+									<a class="nav-link" style="color: red; text-decoration: none; font-weight: bold;width:max-content" href="@Url.RouteUrl("NewsArchive")">@T("News")</a>
 									<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
 										<li><a class="dropdown-item" href="#" style="color: red; text-decoration: none; font-weight: bold;">Web Design</a></li>
 										<li><a class="dropdown-item" href="#" style="color: red; text-decoration: none; font-weight: bold;">Development</a></li>
@@ -70,11 +71,12 @@
 									</ul>
 								</li>
 								<li class="nav-item">
-									<a class="nav-link" href="#" style="color: red; text-decoration: none; font-weight: bold;">Suppliers</a>
+									<a class="nav-link" style="color: red; text-decoration: none; font-weight: bold;width:max-content" href="@Url.RouteUrl("ContactUs")">@T("ContactUs")</a>
 								</li>
 							</ul>
 						</div>
 					</div>
+					<div class="menu-toggle" tabindex="0" role="button" aria-controls="aria-categories-mobile-ul">Menu</div>
 				</nav>
 
 
@@ -82,7 +84,7 @@
 
 				<!-- Language Switcher -->
 				<div name="countries" id="countries" style="width: 180px;">
-					<ul class="language-list" style="display: flex; gap: 10px;">
+					<ul class="language-list" style="display: flex;">
 						<li>
 							<a href="/changelanguage/1?returnurl=%2f" title="english">
 								<img title="english" alt="english" src="/themes/defaultclean/content/images/us.png">
@@ -103,7 +105,7 @@
 	<div class="header-lower">
 		<div class="header-logo">
 			@* @await Component.InvokeAsync(typeof(LogoViewComponent)) *@
-			<a class="logo-footer" href="http://nicon.com.vn/" title="Home"> <img class="image-style-none" style="width:250px;height:50px" src="/Themes/DefaultClean/Content/images/z5815621211914_19205f3b0285e45489744c73daa3c379.jpg" alt="Bouygues Construction"> </a>
+			<a class="logo-footer" href="@Url.RouteUrl("Homepage")" title="Home"> <img class="image-style-none" style="width:250px;height:50px" src="/Themes/DefaultClean/Content/images/z5815621211914_19205f3b0285e45489744c73daa3c379.jpg" alt="Bouygues Construction"> </a>
 		</div>
 		<div class="search-box store-search-box">
 			@await Component.InvokeAsync(typeof(SearchBoxViewComponent))

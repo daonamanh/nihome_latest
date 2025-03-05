@@ -13,7 +13,8 @@ public partial record ProductOverviewModel : BaseNopEntityModel
         ProductSpecificationModel = new ProductSpecificationModel();
         ReviewOverviewModel = new ProductReviewOverviewModel();
     }
-
+    public decimal Price { get; set; }
+    public string Address { get; set; }
     public string Name { get; set; }
     public string ShortDescription { get; set; }
     public string FullDescription { get; set; }
