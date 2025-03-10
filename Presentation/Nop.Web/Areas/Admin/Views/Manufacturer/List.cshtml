@@ -1,4 +1,4 @@
-@model ManufacturerSearchModel
+﻿@model ManufacturerSearchModel
 
 @{
     //page title
@@ -49,6 +49,7 @@
             <i class="fas fa-upload"></i>
             @T("Admin.Common.Import")
         </button>
+       
         @await Component.InvokeAsync(typeof(AdminWidgetViewComponent), new { widgetZone = AdminWidgetZones.ManufacturerListButtons, additionalData = Model })
         <button type="button" id="delete-selected" class="btn btn-danger">
             <i class="far fa-trash-alt"></i>
@@ -97,6 +98,16 @@
                                             <nop-select asp-for="SearchPublishedId" asp-items="Model.AvailablePublishedOptions" />
                                         </div>
                                     </div>
+
+                                    <div class="form-group row">
+                                        <div class="col-md-4">
+                                            <nop-label asp-for="SearchCityId" />
+                                        </div>
+                                        <div class="col-md-8">
+                                            <nop-select asp-for="SearchCityId" id="SearchCityId" asp-items="Model.AvailableCities" />
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -126,7 +137,8 @@
                         {
                             new FilterParameter(nameof(Model.SearchManufacturerName)),
                             new FilterParameter(nameof(Model.SearchStoreId)),
-                            new FilterParameter(nameof(Model.SearchPublishedId))
+                            new FilterParameter(nameof(Model.SearchPublishedId)),
+                            new FilterParameter(nameof(Model.SearchCityId))
                         },
                         ColumnCollection = new List<ColumnProperty>
                         {
@@ -201,6 +213,22 @@
         </div>
     </div>   
 </section>
+<script>
+    document.getElementById("SearchCityId").addEventListener("change", function () {
+        // Lấy giá trị đã chọn
+        const selectedValue = this.value;
+
+        // Chuyển đổi giá trị sang số nguyên (int)
+        const intValue = parseInt(selectedValue, 10);
+
+        // Gán giá trị cho trường SearchCityId (nếu cần)
+        // Bạn có thể lưu giá trị này vào một biến, hoặc sử dụng nó để gửi đến server
+        console.log("Selected CityId:", intValue);
+
+        // Nếu bạn muốn gán lại giá trị vào một trường input ẩn, ví dụ:
+        // document.getElementById("HiddenSearchCityId").value = intValue;
+    });
+</script>
 @*import manufacturers form*@
 <div id="importexcel-window" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="importexcel-window-title">
     <div class="modal-dialog">

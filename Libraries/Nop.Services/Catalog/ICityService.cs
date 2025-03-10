@@ -22,6 +22,7 @@ namespace Nop.Services.Catalog
     public interface ICityService
     {
         IList<City> GetAllCities();
+       //Task  IList<City> GetAllCities(int searchCityId = 0 );
     }
 }
 

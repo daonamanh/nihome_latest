@@ -196,7 +196,7 @@ public partial class CatalogController : BasePublicController
         //template
         var templateViewPath = await _catalogModelFactory.PrepareManufacturerTemplateViewPathAsync(manufacturer.ManufacturerTemplateId);
 
-        return View(templateViewPath, model);
+        return View(templateViewPath, model); // click value 1
     }
 
     //ignore SEO friendly URLs checks
@@ -223,6 +223,19 @@ public partial class CatalogController : BasePublicController
         }
         return View(model);
     }
+    [HttpPost]
+    public virtual async Task<IActionResult> ManufacturerAllSearch()
+    {
+        var model = await _catalogModelFactory.PrepareManufacturerAllModelsAsync();
+        foreach (var manufacturer in model)
+        {
+            // Ensure the description is included (if necessary)
+            manufacturer.Price = manufacturer.Price;  // or similar logic
+        }
+        return View(model);
+    }
+
+
 
     #endregion
 

@@ -132,6 +132,27 @@ public partial class ManufacturerModelFactory : IManufacturerModelFactory
             Value = "2",
             Text = await _localizationService.GetResourceAsync("Admin.Catalog.Manufacturers.List.SearchPublished.UnpublishedOnly")
         });
+        // code add cities
+        searchModel.AvailableCities.Add(new SelectListItem
+        {
+            Value = "0",
+            Text = "All"
+        });
+        searchModel.AvailableCities.Add(new SelectListItem
+        {
+            Value = "1",
+            Text = "TpHCM"
+        });
+        searchModel.AvailableCities.Add(new SelectListItem
+        {
+            Value = "2",
+            Text = "hanoi"
+        });
+        searchModel.AvailableCities.Add(new SelectListItem
+        {
+            Value = "3",
+            Text = "Danang"
+        });
 
         //prepare page parameters
         searchModel.SetGridPageSize();
@@ -155,6 +176,7 @@ public partial class ManufacturerModelFactory : IManufacturerModelFactory
         var manufacturers = await _manufacturerService.GetAllManufacturersAsync(showHidden: true,
             manufacturerName: searchModel.SearchManufacturerName,
             storeId: searchModel.SearchStoreId,
+            cityId: searchModel.SearchCityId,
             pageIndex: searchModel.Page - 1, pageSize: searchModel.PageSize,
             overridePublished: searchModel.SearchPublishedId == 0 ? null : (bool?)(searchModel.SearchPublishedId == 1));
 
@@ -218,6 +240,7 @@ public partial class ManufacturerModelFactory : IManufacturerModelFactory
             model.PageSize = _catalogSettings.DefaultManufacturerPageSize;
             model.PageSizeOptions = _catalogSettings.DefaultManufacturerPageSizeOptions;
             model.Published = true;
+            model.CityId = 1;
             model.AllowCustomersToSelectPageSize = true;
             model.PriceRangeFiltering = true;
             model.ManuallyPriceRange = true;

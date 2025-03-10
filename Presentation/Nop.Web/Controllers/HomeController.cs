@@ -7,5 +7,7 @@ public partial class HomeController : BasePublicController
     public virtual IActionResult Index()
     {
         return View();
+
+
     }
 }

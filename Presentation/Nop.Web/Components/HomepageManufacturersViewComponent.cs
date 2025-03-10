@@ -19,10 +19,6 @@ namespace Nop.Web.Components
             var model = _manufacturerModelFactory.PrepareManufacturerAllModelsAsync().Result; // Use .Result to get the result synchronously
             return View(model);
         }
+
     }
 }
-
-
-
-
-

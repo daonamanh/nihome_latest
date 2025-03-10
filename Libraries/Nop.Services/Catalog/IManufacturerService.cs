@@ -57,10 +57,13 @@ public partial interface IManufacturerService
     /// </returns>
     Task<IPagedList<Manufacturer>> GetAllManufacturersAsync(string manufacturerName = "",
         int storeId = 0,
+        int? cityId = 0,
         int pageIndex = 0,
         int pageSize = int.MaxValue,
         bool showHidden = false,
         bool? overridePublished = null);
+
+
 
     /// <summary>
     /// Get manufacturer identifiers to which a discount is applied

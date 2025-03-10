@@ -37,7 +37,7 @@ using System.Linq;
 
 namespace Nop.Services.Catalog
 {
-    public class CityService : ICityService
+    public partial class CityService : ICityService
     {
         private readonly IRepository<City> _cityRepository;
 
