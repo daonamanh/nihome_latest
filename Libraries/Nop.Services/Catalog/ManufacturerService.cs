@@ -122,6 +122,7 @@ public partial class ManufacturerService : IManufacturerService
     /// </returns>
     public virtual async Task<IPagedList<Manufacturer>> GetAllManufacturersAsync(string manufacturerName = "",
         int storeId = 0,
+        int? cityId = 0,
         int pageIndex = 0,
         int pageSize = int.MaxValue,
         bool showHidden = false,
@@ -151,6 +152,9 @@ public partial class ManufacturerService : IManufacturerService
 
             if (!string.IsNullOrWhiteSpace(manufacturerName))
                 query = query.Where(m => m.Name.Contains(manufacturerName));
+
+            if (cityId > 0)
+                query = query.Where(m => m.CityId == cityId);
 
             return query.OrderBy(m => m.DisplayOrder).ThenBy(m => m.Id);
         }, pageIndex, pageSize);

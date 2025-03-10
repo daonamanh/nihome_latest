@@ -224,6 +224,7 @@ public class CatalogModelFactoryBaseTests : WebTest
     [Test]
     public async Task CanPrepareManufacturerAllModels()
     {
+
         var model = await _catalogModelFactory.PrepareManufacturerAllModelsAsync();
         model.Any().Should().BeTrue();
         model.Count.Should().Be(3);

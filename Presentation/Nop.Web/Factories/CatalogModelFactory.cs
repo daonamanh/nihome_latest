@@ -2,7 +2,6 @@
 using System.Xml.Linq;
 using System.Xml.Serialization;
 using System.Xml.XPath;
-using LinqToDB.DataProvider;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
 using Nop.Core;
@@ -1091,60 +1090,70 @@ public partial class CatalogModelFactory : ICatalogModelFactory
     /// </summary>
     /// <returns>
     /// A task that represents the asynchronous operation
-    /// The task result contains the list of manufacturer models
-    /// </returns>
-    public virtual async Task<List<ManufacturerModel>> PrepareManufacturerAllModelsAsync()
-    {
-        var model = new List<ManufacturerModel>();
-
-        var currentStore = await _storeContext.GetCurrentStoreAsync();
-        var manufacturers = await _manufacturerService.GetAllManufacturersAsync(storeId: currentStore.Id);
-        foreach (var manufacturer in manufacturers)
+    /// The task result contains the list of manufacturer models step 1
+    /// 
+    /// </returns> step 1
+        public virtual async Task<List<ManufacturerModel>> PrepareManufacturerAllModelsAsync()
         {
-            var modelMan = new ManufacturerModel
-            {
-                Id = manufacturer.Id,
-                CityId = manufacturer?.CityId ?? 0,  // Default to 0 if manufacturer is null
-                AvailableCities = _cityService?.GetAllCities()
-            .Select(c => new SelectListItem { Text = c.Name, Value = c.Id.ToString() })
-            .ToList() ?? new List<SelectListItem>(),
-                Price = manufacturer.Price,
-                Name = await _localizationService.GetLocalizedAsync(manufacturer, x => x.Name),
-                Description = await _localizationService.GetLocalizedAsync(manufacturer, x => x.Description),
-                MetaKeywords = await _localizationService.GetLocalizedAsync(manufacturer, x => x.MetaKeywords),
-                MetaDescription = await _localizationService.GetLocalizedAsync(manufacturer, x => x.MetaDescription),
-                MetaTitle = await _localizationService.GetLocalizedAsync(manufacturer, x => x.MetaTitle),
-                SeName = await _urlRecordService.GetSeNameAsync(manufacturer),
-            };
-            //prepare picture model
-            var pictureSize = _mediaSettings.ManufacturerThumbPictureSize;
-            var manufacturerPictureCacheKey = _staticCacheManager.PrepareKeyForDefaultCache(NopModelCacheDefaults.ManufacturerPictureModelKey,
-                manufacturer, pictureSize, true, await _workContext.GetWorkingLanguageAsync(),
-                _webHelper.IsCurrentConnectionSecured(), currentStore);
-            modelMan.PictureModel = await _staticCacheManager.GetAsync(manufacturerPictureCacheKey, async () =>
-            {
-                var picture = await _pictureService.GetPictureByIdAsync(manufacturer.PictureId);
-                string fullSizeImageUrl, imageUrl;
+            var model = new List<ManufacturerModel>();
 
-                (fullSizeImageUrl, picture) = await _pictureService.GetPictureUrlAsync(picture);
-                (imageUrl, _) = await _pictureService.GetPictureUrlAsync(picture, pictureSize);
-
-                var pictureModel = new PictureModel
+            var currentStore = await _storeContext.GetCurrentStoreAsync();
+            var manufacturers = await _manufacturerService.GetAllManufacturersAsync(storeId: currentStore.Id);
+            foreach (var manufacturer in manufacturers)
+            {
+                var modelMan = new ManufacturerModel
                 {
-                    FullSizeImageUrl = fullSizeImageUrl,
-                    ImageUrl = imageUrl,
-                    Title = string.Format(await _localizationService.GetResourceAsync("Media.Manufacturer.ImageLinkTitleFormat"), modelMan.Name),
-                    AlternateText = string.Format(await _localizationService.GetResourceAsync("Media.Manufacturer.ImageAlternateTextFormat"), modelMan.Name)
+                    Id = manufacturer.Id,
+                    CityId = manufacturer?.CityId ?? 0,  // Default to 0 if manufacturer is null
+                    AvailableCities = _cityService?.GetAllCities()
+                .Select(c => new SelectListItem { Text = c.Name, Value = c.Id.ToString() })
+                .ToList() ?? new List<SelectListItem>
+              {
+                  new SelectListItem { Text = "ALl", Value = "0" },
+                  new SelectListItem { Text = "Tphcm", Value = "1" },
+                  new SelectListItem { Text = "Hanoi", Value = "2" },
+                  new SelectListItem { Text = "Danang", Value = "3" },
+              },
+                    Price = manufacturer.Price,
+                    Name = await _localizationService.GetLocalizedAsync(manufacturer, x => x.Name),
+                    Description = await _localizationService.GetLocalizedAsync(manufacturer, x => x.Description),
+                    MetaKeywords = await _localizationService.GetLocalizedAsync(manufacturer, x => x.MetaKeywords),
+                    MetaDescription = await _localizationService.GetLocalizedAsync(manufacturer, x => x.MetaDescription),
+                    MetaTitle = await _localizationService.GetLocalizedAsync(manufacturer, x => x.MetaTitle),
+                    SeName = await _urlRecordService.GetSeNameAsync(manufacturer),
                 };
+                //prepare picture model
+                var pictureSize = _mediaSettings.ManufacturerThumbPictureSize;
+                var manufacturerPictureCacheKey = _staticCacheManager.PrepareKeyForDefaultCache(NopModelCacheDefaults.ManufacturerPictureModelKey,
+                    manufacturer, pictureSize, true, await _workContext.GetWorkingLanguageAsync(),
+                    _webHelper.IsCurrentConnectionSecured(), currentStore);
+                modelMan.PictureModel = await _staticCacheManager.GetAsync(manufacturerPictureCacheKey, async () =>
+                {
+                    var picture = await _pictureService.GetPictureByIdAsync(manufacturer.PictureId);
+                    string fullSizeImageUrl, imageUrl;
 
-                return pictureModel;
-            });
+                    (fullSizeImageUrl, picture) = await _pictureService.GetPictureUrlAsync(picture);
+                    (imageUrl, _) = await _pictureService.GetPictureUrlAsync(picture, pictureSize);
 
-            model.Add(modelMan);
+                    var pictureModel = new PictureModel
+                    {
+                        FullSizeImageUrl = fullSizeImageUrl,
+                        ImageUrl = imageUrl,
+                        Title = string.Format(await _localizationService.GetResourceAsync("Media.Manufacturer.ImageLinkTitleFormat"), modelMan.Name),
+                        AlternateText = string.Format(await _localizationService.GetResourceAsync("Media.Manufacturer.ImageAlternateTextFormat"), modelMan.Name)
+                    };
+
+                    return pictureModel;
+                });
+
+                model.Add(modelMan);
+            }
+
+            return model;
         }
 
-        return model;
-    }
+    
+
 
     /// <summary>
     /// Prepare manufacturer navigation model

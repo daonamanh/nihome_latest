@@ -202,7 +202,7 @@ public partial class ManufacturerController : BaseAdminController
         //prepare model
         var model = await _manufacturerModelFactory.PrepareManufacturerSearchModelAsync(new ManufacturerSearchModel());
 
-        return View(model);
+        return View(model); 
     }
 
     [HttpPost]
@@ -211,7 +211,7 @@ public partial class ManufacturerController : BaseAdminController
         if (!await _permissionService.AuthorizeAsync(StandardPermissionProvider.ManageManufacturers))
             return await AccessDeniedDataTablesJson();
 
-        //prepare model
+        //prepare model // check value searchCityId = 0
         var model = await _manufacturerModelFactory.PrepareManufacturerListModelAsync(searchModel);
 
         return Json(model);

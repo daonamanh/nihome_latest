@@ -15,6 +15,7 @@ public partial record ManufacturerSearchModel : BaseSearchModel
     {
         AvailableStores = new List<SelectListItem>();
         AvailablePublishedOptions = new List<SelectListItem>();
+        AvailableCities = new List<SelectListItem>();
     }
 
     #endregion
@@ -35,6 +36,10 @@ public partial record ManufacturerSearchModel : BaseSearchModel
     public IList<SelectListItem> AvailablePublishedOptions { get; set; }
 
     public bool HideStoresList { get; set; }
+
+    public int SearchCityId { get; set; }
+
+    public IList<SelectListItem> AvailableCities { get; set; }
 
     #endregion
 }

@@ -19,7 +19,7 @@ public partial interface IBlogService
 
     /// <summary>
     /// Gets a blog post
-    /// </summary>
+    /// </summary> 
     /// <param name="blogPostId">Blog post identifier</param>
     /// <returns>
     /// A task that represents the asynchronous operation
